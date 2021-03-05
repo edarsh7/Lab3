@@ -90,8 +90,7 @@ push_command(const char *cmdline UNUSED, void **esp)
         argv[argc++] = tok; 
     }
 
-    save = NULL;
-    tok = NULL;
+    printf("%s \n", argv[0]);
 
     for(int i = argc-1; i>=0; i--)
     {

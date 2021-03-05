@@ -91,12 +91,12 @@ push_command(const char *cmdline UNUSED, void **esp)
     char *save = NULL;
     char *tok = NULL;
     void *arg_adr[argc];
-
+    int i = argc-1;
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {
         *esp -= strlen(tok)+1;
         memcpy(*esp, tok,strlen(tok)+1);
-        arg_adr[i] = *esp;
+        arg_adr[i--] = *esp;
     }
 
     

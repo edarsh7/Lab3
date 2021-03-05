@@ -72,8 +72,7 @@ push_command(const char *cmdline UNUSED, void **esp)
 {
     char *temp = palloc_get_page(0);
     strlcpy(temp, cmdline, PGSIZE);
-    char *temp2 = palloc_get_page(0);
-    strlcpy(temp2, cmdline, PGSIZE);
+    printf("temp: %s",temp);
 
     int argc = 1;
     const char*iter = cmdline;

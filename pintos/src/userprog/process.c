@@ -72,14 +72,24 @@ push_command(const char *cmdline UNUSED, void **esp)
 {
     char *temp = palloc_get_page(0);
     strlcpy(temp, cmdline, PGSIZE);
+    const char *iter = cmdline;
+    int argc = 1;
+
+    while(iter != '\0')
+    {
+        if(iter == ' ')
+            argc++;
+    }
+
+    printf("argc: %d \n", argc);
 
     // Word align with the stack pointer. 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
-    printf("Base Address: 0x%08x\n", (unsigned int) *esp);
 
     char *save = NULL;
     char *tok;
-    void *x = 0;
+    void *arg_adr[]
+
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {
         *esp -= (strlen(tok) + 1);

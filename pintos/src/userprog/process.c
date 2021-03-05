@@ -78,12 +78,14 @@ push_command(const char *cmdline UNUSED, void **esp)
     char tokens[50][50];
     int i = 0;
     int length;
-    char *curr_token = strtok(cmdline, " ");
+    char *save;
+
+    char *curr_token = strtok_r(cmdline, " ", &save);
 
     while(curr_token != NULL)
     {
-        strcpy(tokens[i++], curr_token);
-        curr_token = strtok(NULL, " ");
+        strlcpy(tokens[i++], curr_token, strlen(curr_token));
+        curr_token = strtok_r(cmdline, " ", &save);
     }
 
     for(int j = i; j > 0; j--)
@@ -107,7 +109,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     }
 
     *esp -= 4;
-    memcpy(*esp, *(token), 4);
+    memcpy(*esp, *(tokens), 4);
     *esp -= 4;
     *((int*)*esp) = 0;
 

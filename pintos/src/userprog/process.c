@@ -79,6 +79,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     {
         if(iter == ' ')
             argc++;
+        iter++;
     }
 
     printf("argc: %d \n", argc);

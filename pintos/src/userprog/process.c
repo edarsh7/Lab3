@@ -95,6 +95,15 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= sizeof(char*);
     *((unsigned int*)*esp) = x;
 
+    unsigned int y = (unsigned int)*esp;
+    *esp -= sizeof(char**);
+    *((unsigned int*)*esp) = y;
+
+    *esp -= sizeof(int);
+    *((int*)*esp) = 1;
+
+    *esp -= sizeof(char * );
+    *((int*)*esp) = 0;
 
 
   

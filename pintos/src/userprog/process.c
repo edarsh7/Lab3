@@ -98,14 +98,16 @@ push_command(const char *cmdline UNUSED, void **esp)
         printf("argv[0][...]: 0x%08x  tok: %s\n", (unsigned int) *esp,  tok);
 
         char *iter2 = tok;
+        int y = 1;
         while(true)
         {
             if(iter2 == '\0')
             {
-                printf("yes");
+                printf("yes %d\n",y);
                 break;
             }
             iter2++;
+            y++;
         }
     }
     

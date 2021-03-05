@@ -73,8 +73,8 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     char *temp = malloc(strlen(cmdline)+1);
     strlcpy(temp, cmdline, strlen(cmdline)+1);
-    printf("size of args none: %d\n", strlen(temp));
-
+    if(*(temp+10) == "\0")
+        printf("yes\n");
     printf("Base Address: 0x%08x\n", (unsigned int) *esp);
 
     // Word align with the stack pointer. 

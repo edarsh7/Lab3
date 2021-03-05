@@ -77,7 +77,7 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     // Word align with the stack pointer. 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
-
+    *esp -= 4;
     printf("Base Address: 0x%08x\n", (unsigned int) *esp);
 
   

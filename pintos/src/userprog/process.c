@@ -73,6 +73,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     char *temp = malloc(strlen(cmdline)+1);
     strlcpy(temp, cmdline, strlen(cmdline) + 1);
     printf("Base Address: 0x%08x\n", (unsigned int) *esp);
+    printf("temp: %s\n", temp);
 
     // Word align with the stack pointer. 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
@@ -86,7 +87,6 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     while(curr_token != NULL)
     {
-        printf("output: %s \n", curr_token);
         strlcpy(tokens[i++], curr_token, strlen(curr_token)+1);
         curr_token = strtok_r(temp, " ", &save);
     }

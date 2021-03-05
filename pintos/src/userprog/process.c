@@ -101,11 +101,14 @@ push_command(const char *cmdline UNUSED, void **esp)
         while(true)
         {
             if(iter == '\0')
+            {
                 printf("yes");
                 break;
+            }
             else
+            {
                 printf("no");
-            iter++;
+            }iter++;
         }
     }
     

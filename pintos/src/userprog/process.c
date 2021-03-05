@@ -93,12 +93,13 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {
+        printf("i: %d\n",i++);
         *esp -= (strlen(tok) + 1);
         memcpy(*esp, tok, (strlen(tok) + 1));
         arg_adr[i] = *esp;
         printf("argv[0][...]: 0x%08x  tok: %s\n", (unsigned int) *esp,  tok);
 
-        if(set = 1)
+        if(set = 0)
         {
             char *iter2 = tok;
             int y = 1;

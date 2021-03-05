@@ -75,6 +75,49 @@ push_command(const char *cmdline UNUSED, void **esp)
     // Word align with the stack pointer. 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
 
+    char tokens[50][50];
+    int i = 0;
+    int length;
+    char *curr_token = strtok(cmdline, " ");
+
+    while(curr_token != NULL)
+    {
+        strcpy(tokens[i++], curr_token);
+        curr_token = strtok(NULL, " ");
+    }
+
+    for(int j = i; j > 0; j--)
+    {
+        length = strlen(tokens[j]);
+        *esp -= length;
+        memcpy(*esp, tokens[j], length);
+    }
+
+    *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
+    *((int*)*esp) = 0;
+    *esp -= 4;
+    curr_token = "\0";
+    memcpy(*esp, curr_token, 4);
+
+    for(int j = i; j > 0; j--)
+    {
+        length = strlen(tokens[j]);
+        *esp -= 4;
+        memcpy(*esp, *(tokens+j), 4);
+    }
+
+    *esp -= 4;
+    memcpy(*esp, *(token), 4);
+    *esp -= 4;
+    *((int*)*esp) = 0;
+
+
+
+
+
+
+    
+
     // Some of your CSE130 Lab 3 code will go here.
     //
     // You'll be doing address arithmetic here and that's one of only a handful 

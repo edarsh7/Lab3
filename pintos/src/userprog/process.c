@@ -80,41 +80,30 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     char *tok;
     char *save = temp;
-    char *x;
-
-    while((tok = strtok_r(save, " ", &save)))
+    
+    char tokens[30][30];
+    int i = 0;
+    while(tok = strtok_r(save, " ", &save))
     {
-        *esp -= strlen(tok);
-        x = *esp;
-        memcpy(*esp, tok, strlen(tok));
-        
+        strlcpy(tokens[i++], tok, strlen(tok)+1);
     }
 
-    //word align
+    int *x = NULL;
+    for(int j = i; j > 0; j--)
+    {
+        *esp -= strlen(tokens[j])+1;
+        x = *esp;
+        memcpy(*esp, tokens[j], strlen(tokens[j])+1);
+    }
+
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
     *((int*)*esp) = 0;
-    //null sentinel
-    *esp -= 4;
+    
+    *esp -= sizeof(char*);
     *((int*)*esp) = 0;
-
 
     *esp -= sizeof(char*);
-    *((int*)*esp) = (int)x;
-
-    int y = (int)*esp;
-    *esp -= sizeof(char**);
-    *((char**)*esp) = y;
-
-
-    //argc
-    *esp -= sizeof(int);
-    *((int*)*esp) = 1;
-    //fake return
-    *esp -= 4; 
-    *((int*)*esp) = 0;
-
-
-    
+    *((int*)*esp) = x;
 
     
 

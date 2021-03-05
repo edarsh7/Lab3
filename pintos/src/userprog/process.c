@@ -73,7 +73,7 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     char *temp = malloc(strlen(cmdline)+1);
     strlcpy(temp, cmdline, strlen(cmdline)+1);
-    if(temp+10 == '\0')
+    if(temp+9 == '\0')
         printf("yes\n");
     printf("Base Address: 0x%08x\n", (unsigned int) *esp);
 

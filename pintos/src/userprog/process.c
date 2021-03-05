@@ -100,6 +100,8 @@ push_command(const char *cmdline UNUSED, void **esp)
         arg_adr[i--] = *esp;
     }
 
+    printf("argv[0] adr: 0x08%n\n", argv[0]);
+
     //align stack pointer
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
     *((int*)*esp) = 0;

@@ -68,15 +68,52 @@ static bool load(const char *cmdline, void (**eip) (void), void **esp);
  * format binary has been loaded into the heap by load();
  */
 static void
-push_command(const char *cmdline, void **esp)
+push_command(const char *cmdline UNUSED, void **esp)
 {
-    char *temp = malloc(strlen(cmdline));
+    char *temp = malloc(strlen(cmdline)+1);
     strlcpy(temp, cmdline, strlen(cmdline) + 1);
     printf("Base Address: 0x%08x\n", (unsigned int) *esp);
-    printf("%s \n",temp);
 
     // Word align with the stack pointer. 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
+
+    char tokens[50][50];
+    int i = 0;
+    int length;
+    char *save;
+
+    char *curr_token = strtok_r(temp, " ", &save);
+
+    while(curr_token != NULL)
+    {
+        printf("output: %s \n", curr_token);
+        strlcpy(tokens[i++], curr_token, strlen(curr_token)+1);
+        curr_token = strtok_r(temp, " ", &save);
+    }
+
+    for(int j = i; j > 0; j--)
+    {
+        length = strlen(tokens[j]);
+        *esp -= length;
+        memcpy(*esp, tokens[j], length);
+    }
+
+    *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
+    *((int*)*esp) = 0;
+    *esp -= 4;
+    *((int*)*esp) = 0;
+
+    for(int j = i; j > 0; j--)
+    {
+        length = strlen(tokens[j]);
+        *esp -= 4;
+        memcpy(*esp, *(tokens+j), 4);
+    }
+
+    *esp -= 4;
+    memcpy(*esp, *(tokens), 4);
+    *esp -= 4;
+    *((int*)*esp) = 0;
 
 
 
@@ -115,8 +152,7 @@ process_execute(const char *cmdline)
 
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(cmdline, PRI_DEFAULT, start_process, cmdline_copy);
-    timer_sleep(100);
-
+timer_sleep(100);
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 
     // the child. To get ANY of the tests passing, you need to synchronise the 
     // activity of the parent and child threads.

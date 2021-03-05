@@ -75,8 +75,15 @@ push_command(const char *cmdline UNUSED, void **esp)
     char *temp2 = palloc_get_page(0);
     strlcpy(temp2, cmdline, PGSIZE);
 
-    int argc = 0;
-    char *argv[100];
+    int argc = 1;
+    const char*iter = cmdline;
+    while(iter)
+    {
+        if(iter == ' ')
+            argc++;
+
+        iter++;
+    }
 
     // Word align with the stack pointer. 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
@@ -86,13 +93,6 @@ push_command(const char *cmdline UNUSED, void **esp)
     void *arg_adr[argc];
 
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
-    {
-        argv[argc++] = tok; 
-    }
-
-    
-
-    for(int i = argc-1; i>=0; i--)
     {
         *esp -= strlen(argv[i])+1;
         memcpy(*esp, argv[i],strlen(argv[i])+1);

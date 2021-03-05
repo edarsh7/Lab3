@@ -70,8 +70,8 @@ static bool load(const char *cmdline, void (**eip) (void), void **esp);
 static void
 push_command(const char *cmdline UNUSED, void **esp)
 {
-    char *temp = malloc(strlen(cmdline)+1);
-    strlcpy(temp, cmdline, strlen(cmdline)+1);
+    char *temp = palloc_get_page(0);
+    strlcpy(temp, cmdline, PGSIZE);
 
     // Word align with the stack pointer. 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
@@ -152,7 +152,8 @@ process_execute(const char *cmdline)
 
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(cmdline, PRI_DEFAULT, start_process, cmdline_copy);
-timer_sleep(100);
+
+    timer_sleep(100);
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 
     // the child. To get ANY of the tests passing, you need to synchronise the 
     // activity of the parent and child threads.

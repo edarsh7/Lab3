@@ -97,7 +97,16 @@ push_command(const char *cmdline UNUSED, void **esp)
         arg_adr[i] = *esp;
         printf("argv[0][...]: 0x%08x  tok: %s\n", (unsigned int) *esp,  tok);
 
-        printf("tok: %s\n", tok);
+        iter = tok;
+        while(true)
+        {
+            if(iter == '\0')
+                printf("yes");
+                break;
+            else
+                printf("no");
+            iter++;
+        }
     }
     
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);

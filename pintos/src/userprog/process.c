@@ -80,7 +80,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     char tokens[50][50];
     int i = 0;
     int length;
-    char *save;
+    char *save = temp;
 
     char *curr_token = strtok_r(temp, " ", &save);
 

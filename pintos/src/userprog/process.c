@@ -82,20 +82,19 @@ push_command(const char *cmdline UNUSED, void **esp)
         iter++;
     }
 
-    printf("argc: %d \n", argc);
-
     // Word align with the stack pointer. 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
 
     char *save = NULL;
     char *tok;
-    void *x;
+    void *arg_adr[argc];
+    int i = 0;
 
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {
         *esp -= (strlen(tok) + 1);
         memcpy(*esp, tok, (strlen(tok) + 1));
-        x = *esp;
+        arg_adr[i] = *esp;
         printf("argv[0][...]: 0x%08x  tok: %s\n", (unsigned int) *esp,  tok);
     }
     
@@ -104,17 +103,20 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= sizeof(char*);
     *((int*)*esp) = 0;
 
-    *esp -= sizeof(char*);
-    *((void**)*esp) = x;
+    for(i = argc; i>0; i--)
+    {
+        *esp -=4;
+        *((void **)*esp) = arg_adr[i-1];
+    }
 
     *esp -= sizeof(char**);
     *((void**)*esp) = *esp+4;
 
 
 
-    *esp -= sizeof(int);
-    *((int*)*esp) = 1;
-    *esp -= sizeof(char * );
+    *esp -= 4;
+    *((int*)*esp) = argc;
+    *esp -= 4;
     *((int*)*esp) = 0;
 
 

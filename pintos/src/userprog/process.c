@@ -106,7 +106,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= sizeof(char*);
     *((int*)*esp) = 0;
 
-    for(i = argc-1; i>=0; i--)
+    for(int i = argc-1; i>=0; i--)
     {
         *esp -=4;
         *((void **)*esp) = arg_adr[i];

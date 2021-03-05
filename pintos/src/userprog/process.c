@@ -87,25 +87,30 @@ push_command(const char *cmdline UNUSED, void **esp)
         *esp -= strlen(tok)+1;
         x = *esp;
         memcpy(*esp, tok, strlen(tok)+1);
-        printf("%p\n", x);
+        
     }
 
+    //word align
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
     *((int*)*esp) = 0;
-
+    //null sentinel
     *esp -= 4;
     *((int*)*esp) = 0;
 
+
     *esp -= 4;
-    esp = x;
+    *((int*)*esp) = *x;
 
     char ** y = *esp;
     *esp -= 4;
-    esp = y;
+    *((int*)*esp) = *y;
 
+
+    //argc
     *esp -= sizeof(int);
     *((int*)*esp) = 1;
-    *esp -= 4;
+    //fake return
+    *esp -= 4; 
     *((int*)*esp) = 0;
 
 

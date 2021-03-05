@@ -85,6 +85,7 @@ push_command(const char *cmdline UNUSED, void **esp)
         *esp -= (strlen(tok) + 1);
         x = (unsigned int)*esp;
         memcpy(*esp, tok, (strlen(tok) + 1));
+        printf("argv[0][...]: 0x%08x  tok: %s\n", (unsigned int) *esp,  tok;
     }
     
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);

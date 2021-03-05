@@ -80,7 +80,7 @@ push_command(const char *cmdline UNUSED, void **esp)
 
 
 
-    print("%d ", *esp);
+    printf("%d ", *esp);
 
 
 

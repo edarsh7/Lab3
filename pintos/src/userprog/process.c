@@ -88,8 +88,10 @@ push_command(const char *cmdline UNUSED, void **esp)
     int argv[i];
     int j = 0;
     strlcpy(temp, cmdline, strlen(cmdline)+1);
+
     while((tok = strtok_r(save, " ", &save)))
     {
+        printf("whajh");
         *esp -= strlen(tok) + 1;
         memcpy(*esp, tok, strlen(tok) + 1);
         argv[j++] = (int)*esp;

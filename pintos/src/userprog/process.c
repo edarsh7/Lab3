@@ -80,12 +80,11 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     char *tok;
     char *save = temp;
-    char *x;
+    char *x = cmdline;
 
     while((tok = strtok_r(save, " ", &save)))
     {
         *esp -= strlen(tok)+1;
-        x = *esp;
         memcpy(*esp, tok, strlen(tok)+1);
         
     }

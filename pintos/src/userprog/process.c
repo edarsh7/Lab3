@@ -81,6 +81,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     char *tok;
     char *save = temp;
     int i =0;
+    printf("whajh");
     while((tok = strtok_r(save, " ", &save)))
     {
         i++;
@@ -91,7 +92,6 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     while((tok = strtok_r(save, " ", &save)))
     {
-        printf("whajh");
         *esp -= strlen(tok) + 1;
         memcpy(*esp, tok, strlen(tok) + 1);
         argv[j++] = (int)*esp;

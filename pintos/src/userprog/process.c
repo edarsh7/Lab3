@@ -111,10 +111,8 @@ push_command(const char *cmdline UNUSED, void **esp)
         *((void **)*esp) = arg_adr[i];
     }
 
-    *esp -= sizeof(char**);
+    *esp -= 4;
     *((void**)*esp) = *esp+4;
-
-
 
     *esp -= 4;
     *((int*)*esp) = argc;

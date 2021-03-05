@@ -84,6 +84,7 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     while((tok = strtok_r(save, " ", &save)))
     {
+        printf("yes");
         *esp -= strlen(tok)+1;
         memcpy(*esp, tok, strlen(tok)+1);
     }

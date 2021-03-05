@@ -85,9 +85,8 @@ push_command(const char *cmdline UNUSED, void **esp)
     while((tok = strtok_r(save, " ", &save)))
     {
         *esp -= strlen(tok)+1;
-        x = *esp;
+        x = esp;
         memcpy(*esp, tok, strlen(tok)+1);
-        printf("%s hhhh\n", (char*)*esp);
     }
 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
@@ -99,7 +98,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= 4;
     *((int*)*esp) = x;
 
-    char ** y = *esp;
+    char ** y = esp;
     *esp -= 4;
     *((int*)*esp) = y;
 

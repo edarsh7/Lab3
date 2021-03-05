@@ -83,7 +83,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {
         *esp -= (strlen(tok) + 1);
-        x = (unsigned int)*esp
+        x = (unsigned int)*esp;
         memcpy(*esp, tok, (strlen(tok) + 1));
     }
     

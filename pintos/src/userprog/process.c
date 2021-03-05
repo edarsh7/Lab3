@@ -89,6 +89,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     char *tok;
     void *arg_adr[argc];
     int i = 0;
+    int set = 1;
 
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {
@@ -97,17 +98,21 @@ push_command(const char *cmdline UNUSED, void **esp)
         arg_adr[i] = *esp;
         printf("argv[0][...]: 0x%08x  tok: %s\n", (unsigned int) *esp,  tok);
 
-        char *iter2 = tok;
-        int y = 1;
-        while(true)
+        if(set = 1)
         {
-            if(iter2 == '\0')
+            char *iter2 = tok;
+            int y = 1;
+            while(true)
             {
-                printf("yes %d\n",y);
-                break;
+                if(iter2 == '\0')
+                {
+                    printf("yes %d\n",y);
+                    break;
+                }
+                iter2++;
+                y++;
             }
-            iter2++;
-            y++;
+            set = 0;
         }
     }
     

@@ -88,11 +88,11 @@ push_command(const char *cmdline UNUSED, void **esp)
         strlcpy(tokens[i++], tok, strlen(tok)+1);
     }
 
-    int *x = NULL;
+    char *x = NULL;
     for(int j = i; j > 0; j--)
     {
         *esp -= strlen(tokens[j])+1;
-        x = *esp;
+        x = tokens[j];
         memcpy(*esp, tokens[j], strlen(tokens[j])+1);
     }
 

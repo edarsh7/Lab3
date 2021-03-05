@@ -95,7 +95,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     *((int*)*esp) = 0;
     //null sentinel
     *esp -= 4;
-    *((int*)*esp) = 0;
+    *((int*)*esp) = 1;
 
 
     *esp -= sizeof(char*);

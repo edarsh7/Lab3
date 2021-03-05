@@ -99,9 +99,8 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
     *((int*)*esp) = 0;
     *esp -= 4;
-    curr_token = "\0";
-    memcpy(*esp, curr_token, 4);
-
+    *((int*)*esp) = 0;
+    
     for(int j = i; j > 0; j--)
     {
         length = strlen(tokens[j]);

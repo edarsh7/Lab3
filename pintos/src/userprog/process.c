@@ -70,9 +70,9 @@ static bool load(const char *cmdline, void (**eip) (void), void **esp);
 static void
 push_command(const char *cmdline UNUSED, void **esp)
 {
-    char *temp = malloc(sizeof(cmdline))
+    char *temp = malloc(sizeof(cmdline));
     strlcpy(temp, cmdline, sizeof(cmdline));
-    char *temp2 = malloc(sizeof(cmdline))
+    char *temp2 = malloc(sizeof(cmdline));
     strlcpy(temp2, cmdline, sizeof(cmdline));
 
     int argc = 0;

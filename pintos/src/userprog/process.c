@@ -88,7 +88,7 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     char *save = NULL;
     char *tok;
-    void *arg_adr[]
+    void *x;
 
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {

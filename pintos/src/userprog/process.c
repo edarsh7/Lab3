@@ -90,7 +90,6 @@ push_command(const char *cmdline UNUSED, void **esp)
         argv[argc++] = tok; 
     }
 
-    printf("%s \n", argv[0]);
 
     for(int i = argc-1; i>=0; i--)
     {
@@ -99,6 +98,7 @@ push_command(const char *cmdline UNUSED, void **esp)
         arg_adr[i] = *esp;
     }
 
+      printf("%s \n", argv[0]);
     
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
     *((int*)*esp) = 0;

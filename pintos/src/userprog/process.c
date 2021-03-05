@@ -103,8 +103,8 @@ push_command(const char *cmdline UNUSED, void **esp)
     
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
     *((int*)*esp) = 0;
-    *esp -= sizeof(char*);
-    *((int*)*esp) = 0;
+    *esp -= 4;
+    *((uint32_t*)*esp) = 0;
 
     for(int i = argc-1; i>=0; i--)
     {

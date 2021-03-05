@@ -119,7 +119,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= 4;
     *((int*)*esp) = argc;
     *esp -= 4;
-    *((int*)*esp) = 0;
+    *((void**)*esp) = 0;
 
 
 

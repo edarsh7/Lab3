@@ -101,9 +101,9 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= 4;
     *((int*)*esp) = *x;
 
-    char * y = *esp;
+    char ** y = *esp;
     *esp -= sizeof(char**);
-    *((int*)*esp) = *y;
+    *((int*)*esp) = y;
 
 
     //argc

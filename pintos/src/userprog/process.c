@@ -73,19 +73,29 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     char *temp = malloc(strlen(cmdline)+1);
     strlcpy(temp, cmdline, strlen(cmdline)+1);
-    char *temp2 = temp;
-    temp2 += 10;
-    if(*(temp+10) == '\0')
-        printf("yes\n");
-    printf("%c", *(temp));
+    
     printf("Base Address: 0x%08x\n", (unsigned int) *esp);
 
     // Word align with the stack pointer. 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
 
- 
+    char *tok;
+    char *save = temp;
 
- //what
+    while((tok = strtok_r(save, " ", &save)))
+    {
+        *esp -= strlen(tok)+1;
+        memcpy(*esp, tok, strlen(tok)+1);
+    }
+
+    *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
+    *((int*)*esp) = 0;
+
+    *esp -= 4;
+    *((int*)*esp) = 0;
+
+    
+
 
 
 

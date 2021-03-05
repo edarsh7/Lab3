@@ -87,7 +87,7 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     while(curr_token != NULL)
     {
-        print("output: %s \n", curr_token);
+        printf("output: %s \n", curr_token);
         strlcpy(tokens[i++], curr_token, strlen(curr_token));
         curr_token = strtok_r(temp, " ", &save);
     }

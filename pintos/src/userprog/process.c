@@ -78,7 +78,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     const char*iter = cmdline;
     while(iter)
     {
-        if(iter == ' ')
+        if(*iter == ' ')
             argc++;
 
         iter++;
@@ -91,6 +91,8 @@ push_command(const char *cmdline UNUSED, void **esp)
     char *tok = NULL;
     void *arg_adr[argc];
     int i = argc-1;
+
+    //push args onto stack
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {
         *esp -= strlen(tok)+1;
@@ -98,28 +100,32 @@ push_command(const char *cmdline UNUSED, void **esp)
         arg_adr[i--] = *esp;
     }
 
-    
+    //align stack pointer
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
     *((int*)*esp) = 0;
+
+    //null sentinel
     *esp -= 4;
     *((int*)*esp) = 0;
 
-
-    for(int i = argc-1; i>=0; i--)
+    //push addresses from end to beginning of array
+    for(int i = argc; i>0; i--)
     {
         *esp -=4;
-        *((void **)*esp) = arg_adr[i];
+        *((void **)*esp) = arg_adr[i-1];
     }
 
+    //push address of argv[0]
     *esp -= 4;
-    *((void**)*esp) = *esp+4;
+    *((void **)*esp) = *esp+4;
 
-
-
+    //push argc
     *esp -= 4;
     *((int*)*esp) = argc;
+    
+    //push fake RA
     *esp -= 4;
-    *((void**)*esp) = 0;
+    *((int*)*esp) = 0;
 
 
 

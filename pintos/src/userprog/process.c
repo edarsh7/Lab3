@@ -94,11 +94,9 @@ push_command(const char *cmdline UNUSED, void **esp)
     *((int*)*esp) = 0;
 
     *esp -= sizeof(char*);
-    printf("argv[0]: 0x%08x   x: 0x%08x\n", (unsigned int) *esp , (unsigned int)x);
-    *((void*)*esp) = x;
+    *((void**)*esp) = x;
 
     *esp -= sizeof(char**);
-    printf("argv: 0x%08x  y: 0x%08x\n", (unsigned int) *esp,  (unsigned int)y);
     *((void**)*esp) = *esp+4;
 
 

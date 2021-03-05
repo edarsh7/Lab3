@@ -70,7 +70,7 @@ static bool load(const char *cmdline, void (**eip) (void), void **esp);
 static void
 push_command(const char *cmdline, void **esp)
 {
-    char *temp = malloc(strlen(cmdline)+1);
+    char *temp = malloc(strlen(cmdline));
     strlcpy(temp, cmdline, strlen(cmdline) + 1);
     printf("Base Address: 0x%08x\n", (unsigned int) *esp);
     printf("%s \n",temp);
@@ -115,6 +115,7 @@ process_execute(const char *cmdline)
 
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(cmdline, PRI_DEFAULT, start_process, cmdline_copy);
+    timer_sleep(100);
 
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 
     // the child. To get ANY of the tests passing, you need to synchronise the 

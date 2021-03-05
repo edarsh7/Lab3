@@ -98,20 +98,20 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
     *((int*)*esp) = 0;
-    
     *esp -= sizeof(char*);
     *((int*)*esp) = 0;
 
+
     *esp -= sizeof(char*);
-    *((int*)*esp) = x;
+    *((int*)*esp) = (int)x;
 
     int y = *esp;
     *esp -= sizeof(char**);
-    *((int*)*esp) = y;
+    *((int*)*esp) = (int)y;
+
 
     *esp -= sizeof(int);
     *((int*)*esp) = 1;
-
     *esp -= 4;
     *((int*)*esp) = 0;
 

@@ -70,6 +70,7 @@ static bool load(const char *cmdline, void (**eip) (void), void **esp);
 static void
 push_command(const char *cmdline UNUSED, void **esp)
 {
+    char *temp = cmdline;
     printf("Base Address: 0x%08x\n", (unsigned int) *esp);
 
     // Word align with the stack pointer. 
@@ -80,12 +81,12 @@ push_command(const char *cmdline UNUSED, void **esp)
     int length;
     char *save;
 
-    char *curr_token = strtok_r(cmdline, " ", &save);
+    char *curr_token = strtok_r(temp, " ", &save);
 
     while(curr_token != NULL)
     {
         strlcpy(tokens[i++], curr_token, strlen(curr_token));
-        curr_token = strtok_r(cmdline, " ", &save);
+        curr_token = strtok_r(temp, " ", &save);
     }
 
     for(int j = i; j > 0; j--)

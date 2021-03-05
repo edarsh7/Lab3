@@ -72,60 +72,44 @@ push_command(const char *cmdline UNUSED, void **esp)
 {
     char *temp = palloc_get_page(0);
     strlcpy(temp, cmdline, PGSIZE);
-    const char *iter = cmdline;
-    int argc = 1;
+    char *temp2 = palloc_get_page(0);
+    strlcpy(temp2, cmdline, PGSIZE);
 
-    while(iter != '\0')
-    {
-        if(iter == ' ')
-            argc++;
-        iter++;
-    }
+    int argc = 0;
+    char *argv[100];
 
     // Word align with the stack pointer. 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
 
     char *save = NULL;
-    char *tok;
+    char *tok = NULL;
     void *arg_adr[argc];
-    int i = 0;
-    int set = 1;
 
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {
-        printf("i: %d\n",i++);
-        *esp -= (strlen(tok) + 1);
-        memcpy(*esp, tok, (strlen(tok) + 1));
-        arg_adr[i] = *esp;
-        printf("argv[0][...]: 0x%08x  tok: %s\n", (unsigned int) *esp,  tok);
-
-        if(set = 0)
-        {
-            char *iter2 = tok;
-            int y = 1;
-            while(true)
-            {
-                if(iter2 == '\0')
-                {
-                    printf("yes %d\n",y);
-                    break;
-                }
-                iter2++;
-                y++;
-            }
-            set = 0;
-        }
+        argv[argc++] = tok; 
     }
+
+    save = NULL;
+    tok = NULL;
+
+    for(int i = argc-1; i>=0; i--)
+    {
+        *esp -= strlen(argv[i])+1;
+        memcpy(*esp, argv[i],strlen(argv[i])+1);
+        arg_adr[i] = *esp;
+    }
+
     
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
     *((int*)*esp) = 0;
     *esp -= sizeof(char*);
     *((int*)*esp) = 0;
 
-    for(i = argc; i>0; i--)
+    for(i = argc-1; i>=0; i--)
     {
         *esp -=4;
-        *((void **)*esp) = arg_adr[i-1];
+        *((void **)*esp) = arg_adr[i];
     }
 
     *esp -= sizeof(char**);

@@ -87,7 +87,7 @@ push_command(const char *cmdline UNUSED, void **esp)
         *esp -= strlen(tok)+1;
         x = *esp;
         memcpy(*esp, tok, strlen(tok)+1);
-        printf("%c\n", x);
+        printf("%s\n", x);
     }
 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);

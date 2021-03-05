@@ -72,7 +72,7 @@ push_command(const char *cmdline UNUSED, void **esp)
 {
     char *temp = palloc_get_page(0);
     strlcpy(temp, cmdline, PGSIZE);
-    printf("temp: %s",temp);
+
 
     int argc = 1;
     const char*iter = cmdline;
@@ -104,16 +104,15 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= 4;
     *((uint32_t*)*esp) = 0;
 
-    for(int i = argc-1; i>=0; i--)
-    {
-        *esp -=4;
-        *((void **)*esp) = arg_adr[i];
-    }
 
     *esp -= sizeof(char**);
     *((void**)*esp) = *esp+4;
 
-
+for(int i = argc-1; i>=0; i--)
+    {
+        *esp -=4;
+        *((void **)*esp) = arg_adr[i];
+    }
 
     *esp -= 4;
     *((int*)*esp) = argc;

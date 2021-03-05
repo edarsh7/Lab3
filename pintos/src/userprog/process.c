@@ -94,7 +94,11 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= 4;
     *((int*)*esp) = 0;
 
+    *esp -= 4;
+    *((int*)*esp) = &cmdline;
     
+
+
 
 
 

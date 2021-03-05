@@ -70,10 +70,10 @@ static bool load(const char *cmdline, void (**eip) (void), void **esp);
 static void
 push_command(const char *cmdline UNUSED, void **esp)
 {
-    char *temp = malloc(sizeof(cmdline));
-    strlcpy(temp, cmdline, sizeof(cmdline));
-    char *temp2 = malloc(sizeof(cmdline));
-    strlcpy(temp2, cmdline, sizeof(cmdline));
+    char *temp = palloc_get_page(0);
+    strlcpy(temp, cmdline, PGSIZE);
+    char *temp2 = palloc_get_page(0);
+    strlcpy(temp2, cmdline, PGSIZE);
 
     int argc = 0;
     char *argv[100];
@@ -98,7 +98,7 @@ push_command(const char *cmdline UNUSED, void **esp)
         arg_adr[i] = *esp;
     }
 
-      printf("????? %s \n", argv[0]);
+      printf("%s \n", argv[1]);
     
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
     *((int*)*esp) = 0;

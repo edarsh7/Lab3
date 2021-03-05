@@ -99,7 +99,7 @@ push_command(const char *cmdline UNUSED, void **esp)
 
 
     *esp -= 4;
-    *((int*)*esp) = (int)*x;
+    *((int*)*esp) = x;
 
     int y = (int)*esp;
     *esp -= sizeof(char**);

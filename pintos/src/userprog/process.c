@@ -68,9 +68,8 @@ static bool load(const char *cmdline, void (**eip) (void), void **esp);
  * format binary has been loaded into the heap by load();
  */
 static void
-push_command(const char *cmdline UNUSED, void **esp)
+push_command(const char *cmdline, void **esp)
 {
-    printf("   idk    ");
     char *temp = malloc(strlen(cmdline)+1);
     strlcpy(temp, cmdline, strlen(cmdline) + 1);
     printf("Base Address: 0x%08x\n", (unsigned int) *esp);

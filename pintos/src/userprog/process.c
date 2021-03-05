@@ -79,12 +79,12 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     char *save = NULL;
     char *tok;
-    unsigned int x = 0;
+    void *x = 0;
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {
         *esp -= (strlen(tok) + 1);
-        x = (unsigned int)*esp;
         memcpy(*esp, tok, (strlen(tok) + 1));
+        x = *esp;
         printf("argv[0][...]: 0x%08x  tok: %s\n", (unsigned int) *esp,  tok);
     }
     
@@ -95,12 +95,11 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     *esp -= sizeof(char*);
     printf("argv[0]: 0x%08x   x: 0x%08x\n", (unsigned int) *esp , (unsigned int)x);
-    *((uint32_t*)*esp) = x;
+    *((void*)*esp) = x;
 
-    unsigned int y = (unsigned int)*esp;
     *esp -= sizeof(char**);
     printf("argv: 0x%08x  y: 0x%08x\n", (unsigned int) *esp,  (unsigned int)y);
-    *((uint32_t*)*esp) = y;
+    *((void**)*esp) = *esp+4;
 
 
 

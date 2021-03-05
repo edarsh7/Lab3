@@ -102,17 +102,19 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
     *((int*)*esp) = 0;
     *esp -= 4;
-    *((uint32_t*)*esp) = 0;
+    *((int*)*esp) = 0;
 
 
-    *esp -= sizeof(char**);
-    *((void**)*esp) = *esp+4;
-
-for(int i = argc-1; i>=0; i--)
+    for(int i = argc-1; i>=0; i--)
     {
         *esp -=4;
         *((void **)*esp) = arg_adr[i];
     }
+
+    *esp -= sizeof(char**);
+    *((void**)*esp) = *esp+4;
+
+
 
     *esp -= 4;
     *((int*)*esp) = argc;
@@ -207,6 +209,7 @@ start_process(void *cmdline)
 int
 process_wait(tid_t child_tid UNUSED)
 {
+    while(1);
     return -1;
 }
 

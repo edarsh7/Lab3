@@ -80,23 +80,9 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     char *tok;
     char *save = temp;
-    int i =0;
-    printf("whajh");
-    while((tok = strtok_r(save, " ", &save)))
-    {
-        i++;
-    }
-    int argv[i];
-    int j = 0;
-    strlcpy(temp, cmdline, strlen(cmdline)+1);
+    int i = 0;
 
-    while((tok = strtok_r(save, " ", &save)))
-    {
-        *esp -= strlen(tok) + 1;
-        memcpy(*esp, tok, strlen(tok) + 1);
-        argv[j++] = (int)*esp;
-        printf("%d \n", argv[0]);
-    }
+    print("%d ", *esp);
 
     
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
@@ -105,10 +91,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     *((int*)*esp) = 0;
 
 
-    *esp -= sizeof(argv[0]);
-    *((int*)*esp) = argv[0];
-    *esp -= sizeof(argv[0]);
-    *((int*)*esp) = argv[0];
+    print("%d ", *esp);
 
 
     *esp -= sizeof(int);

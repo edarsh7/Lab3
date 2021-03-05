@@ -83,7 +83,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     
     char tokens[30][30];
     int i = 0;
-    while(tok = strtok_r(save, " ", &save))
+    while((tok = strtok_r(save, " ", &save)))
     {
         strlcpy(tokens[i++], tok, strlen(tok)+1);
     }

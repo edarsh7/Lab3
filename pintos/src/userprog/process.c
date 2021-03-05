@@ -80,34 +80,30 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     char *tok;
     char *save = temp;
-    
-    char tokens[30][30];
-    int i = 0;
+    int i =0;
     while((tok = strtok_r(save, " ", &save)))
     {
-        strlcpy(tokens[i++], tok, strlen(tok)+1);
+        i++;
     }
-
-    char *x = NULL;
-    for(int j = i; j > 0; j--)
+    int argv[i];
+    int j = 0;
+    strlcpy(temp, cmdline, strlen(cmdline)+1);
+    while((tok = strtok_r(save, " ", &save)))
     {
-        *esp -= strlen(tokens[j])+1;
-        x = tokens[j];
-        memcpy(*esp, tokens[j], strlen(tokens[j])+1);
+        *esp -= strlen(tok) + 1;
+        memcpy(*esp, tok, strlen(tok) + 1);
+        argv[i++] = (int)*esp;
     }
 
+    
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
     *((int*)*esp) = 0;
     *esp -= sizeof(char*);
     *((int*)*esp) = 0;
 
 
-    *esp -= sizeof(char*);
-    *((int*)*esp) = (int)x;
-
-    char ** y = &x;
-    *esp -= sizeof(char**);
-    *((int*)*esp) = (int)y;
+    *esp -= sizeof(argv[0]);
+    *((int*)*esp) = argv[0];
 
 
     *esp -= sizeof(int);

@@ -93,7 +93,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     *((int*)*esp) = 0;
 
     *esp -= sizeof(char*);
-    printf("argv[0]: 0x%08x   x: 0x%08x\n",  (unsigned int)x);
+    printf("argv[0]: 0x%08x   x: 0x%08x\n", (unsigned int) *esp , (unsigned int)x);
     *((unsigned int*)*esp) = x;
 
     unsigned int y = (unsigned int)*esp;

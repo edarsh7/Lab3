@@ -104,6 +104,12 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= 4;
     *((int*)*esp) = y;
 
+    *esp -= sizeof(int);
+    *((int*)*esp) = 1;
+    *esp -= 4;
+    *((int*)*esp) = 0;
+
+
     
 
     

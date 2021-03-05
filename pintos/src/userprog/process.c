@@ -70,6 +70,7 @@ static bool load(const char *cmdline, void (**eip) (void), void **esp);
 static void
 push_command(const char *cmdline UNUSED, void **esp)
 {
+    printf("size of args none: %d", strlen(cmdline));
     char *temp = malloc(strlen(cmdline)+1);
     strlcpy(temp, cmdline, strlen(cmdline) + 1);
     strcat(temp, "\0");
@@ -78,42 +79,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     // Word align with the stack pointer. 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
 
-    char tokens[50][50];
-    int i = 0;
-    int length;
-    char *save;
-
-    char *curr_token = strtok_r(temp, " ", &save);
-
-    while(curr_token != NULL)
-    {
-        strlcpy(tokens[i++], curr_token, strlen(curr_token)+1);
-        curr_token = strtok_r(temp, " ", &save);
-    }
-
-    for(int j = i; j > 0; j--)
-    {
-        length = strlen(tokens[j]);
-        *esp -= length;
-        memcpy(*esp, tokens[j], length);
-    }
-
-    *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
-    *((int*)*esp) = 0;
-    *esp -= 4;
-    *((int*)*esp) = 0;
-
-    for(int j = i; j > 0; j--)
-    {
-        length = strlen(tokens[j]);
-        *esp -= 4;
-        memcpy(*esp, *(tokens+j), 4);
-    }
-
-    *esp -= 4;
-    memcpy(*esp, *(tokens), 4);
-    *esp -= 4;
-    *((int*)*esp) = 0;
+ 
 
 
 

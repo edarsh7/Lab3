@@ -92,7 +92,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     {
         *esp -= strlen(tok) + 1;
         memcpy(*esp, tok, strlen(tok) + 1);
-        argv[i++] = (int)*esp;
+        argv[j++] = (int)*esp;
     }
 
     

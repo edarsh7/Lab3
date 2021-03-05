@@ -79,29 +79,6 @@ push_command(const char *cmdline UNUSED, void **esp)
     // Word align with the stack pointer. 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
 
-    char *tok;
-    char *save = temp;
-    int i = 0;
-
-    print("%d ", *esp);
-
-    
-    *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
-    *((int*)*esp) = 0;
-    *esp -= sizeof(char*);
-    *((int*)*esp) = 0;
-
-
-    print("%d ", *esp);
-
-
-    *esp -= sizeof(int);
-    *((int*)*esp) = 1;
-    *esp -= 4;
-    *((int*)*esp) = 0;
-
-    
-
 
 
 

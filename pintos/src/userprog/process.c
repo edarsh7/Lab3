@@ -70,7 +70,6 @@ static bool load(const char *cmdline, void (**eip) (void), void **esp);
 static void
 push_command(const char *cmdline UNUSED, void **esp)
 {
-    
     char *temp = malloc(strlen(cmdline)+1);
     strlcpy(temp, cmdline, strlen(cmdline)+1);
 
@@ -78,6 +77,12 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     // Word align with the stack pointer. 
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
+
+
+
+    print("%d ", *esp);
+
+
 
 
 

@@ -102,24 +102,15 @@ push_command(const char *cmdline UNUSED, void **esp)
     printf("argv: 0x%08x  y: 0x%08x\n", (unsigned int) *esp,  (unsigned int)y);
     *((unsigned int*)*esp) = y;
 
+
+
     *esp -= sizeof(int);
     *((int*)*esp) = 1;
-
     *esp -= sizeof(char * );
     *((int*)*esp) = 0;
 
 
-  
 
-
-
-
-
-
-
-
-
-    
 
     // Some of your CSE130 Lab 3 code will go here.
     //

@@ -85,7 +85,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     
     char *save = NULL;
     char *tok = NULL;
-    void *arg_adr[argc];
+    void arg_adr[argc];
     int i = 0;
 
     //push args onto stack
@@ -110,7 +110,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     for(int i = argc; i>0; i--)
     {
         *esp -=sizeof(char);
-        *((void**)*esp) = arg_adr[i-1];
+        *((void*)*esp) = arg_adr[i-1];
     }
 
     //push address of argv[0]

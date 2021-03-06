@@ -111,7 +111,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     //push addresses from end to beginning of array
     for(int i = argc-1; i>=0;i--)
     {
-        *esp -= 4;
+        *esp -= sizeof(char*);
         *((char**)*esp) = arg_adr[i];
     }
 

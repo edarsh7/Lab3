@@ -117,7 +117,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= 4;
     *((void**)*esp) = *esp+4;
 
-    printf("hey: %s \n", (uint32_t)*esp);
+    printf("hey: %ld \n", (uint32_t)*esp);
     //push argc
     *esp -= 4;
     *((int*)*esp) = argc;

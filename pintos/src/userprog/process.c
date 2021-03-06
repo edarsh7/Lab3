@@ -85,7 +85,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     
     char *save = NULL;
     char *tok = NULL;
-    char **arg_adr[] = palloc_get_page(0);
+    char **arg_adr = palloc_get_page(0);
     int i = 0;
 
     //push args onto stack

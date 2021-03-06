@@ -159,6 +159,8 @@ process_execute(const char *cmdline)
     tid_t tid = thread_create(cmdline, PRI_DEFAULT, start_process, cmdline_copy);
 
     timer_sleep(100);
+    //sema up parent
+
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 
     // the child. To get ANY of the tests passing, you need to synchronise the 
     // activity of the parent and child threads.
@@ -182,11 +184,25 @@ start_process(void *cmdline)
     pif.cs = SEL_UCSEG;
     pif.eflags = FLAG_IF | FLAG_MBS;
 
-    bool success = load(cmdline, &pif.eip, &pif.esp);
+    //tokenize to get first argument
+    //makesure cmdline doesnt get altered
+    char *cmdline_copy = palloc_get_page(0);
+    if (cmdline_copy == NULL)
+        return TID_ERROR;
+
+    strlcpy(cmdline_copy, cmdline, PGSIZE);
+
+    char *save = NULL;
+    char *tok = NULL;
+    tok = strtok_r(cmdline_copy, " ", &save);
+
+    bool success = load(tok, &pif.eip, &pif.esp);
+
     if (success) {
         push_command(cmdline, &pif.esp);
     }
     palloc_free_page(cmdline);
+    palloc_free_page(cmdline_copy);
 
     if (!success) {
         thread_exit();
@@ -200,6 +216,8 @@ start_process(void *cmdline)
     asm volatile ("movl %0, %%esp; jmp intr_exit" : : "g" (&pif) : "memory");
     NOT_REACHED();
 }
+
+
 /* Waits for thread TID to die and returns its exit status.  If
    it was terminated by the kernel (i.e. killed due to an
    exception), returns -1.  If TID is invalid or if it was not a

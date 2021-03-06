@@ -70,8 +70,8 @@ static bool load(const char *cmdline, void (**eip) (void), void **esp);
 static void
 push_command(const char *cmdline UNUSED, void **esp)
 {
-    char *temp = malloc(strlen(cmdline)+1);
-    strlcpy(temp, cmdline, strlen(cmdline)+1);
+    char *temp = palloc_get_page(0);
+    strlcpy(temp, cmdline, PGSIZE);
     
     int argc = 1;
     const char*iter = cmdline;
@@ -85,7 +85,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     
     char *save = NULL;
     char *tok = NULL;
-    void arg_adr[argc];
+    void *arg_adr[argc] = palloc_get_page(0);
     int i = 0;
 
     //push args onto stack
@@ -110,7 +110,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     for(int i = argc; i>0; i--)
     {
         *esp -=sizeof(char);
-        *((void*)*esp) = arg_adr[i-1];
+        *((void**)*esp) = arg_adr[i-1];
     }
 
     //push address of argv[0]
@@ -125,7 +125,8 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= 4;
     *((void**)*esp) = 0;
 
-    free(temp);
+    palloc_free_page(temp);
+    palloc_free_page(arg_adr);
 
     // Some of your CSE130 Lab 3 code will go here.
     //

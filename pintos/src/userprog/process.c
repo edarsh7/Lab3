@@ -85,6 +85,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     {
         argc++;
     }
+    palloc_free_page(temp2);
 
     save = NULL;
     tok = NULL;
@@ -98,7 +99,7 @@ push_command(const char *cmdline UNUSED, void **esp)
         memcpy(*esp, tok, strlen(tok)+1);
         arg_adr[i] = *esp;
     }
-
+    palloc_free_page(temp);
     
     //align stack pointer
     *esp -= 4;
@@ -128,7 +129,6 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= 4;
     *((void**)*esp) = 0;
 
-    palloc_free_page(temp);
     palloc_free_page(arg_adr);
 
     // Some of your CSE130 Lab 3 code will go here.

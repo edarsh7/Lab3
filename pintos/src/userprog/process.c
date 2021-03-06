@@ -79,7 +79,6 @@ push_command(const char *cmdline UNUSED, void **esp)
     {
         if(*iter == ' ')
             argc++;
-
         iter++;
     }
 
@@ -93,7 +92,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     //push args onto stack
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {
-        *esp -= sizeof(int);
+        *esp -= 4;
         memcpy(*esp, tok,strlen(tok)+1);
         arg_adr[i] = *esp;
     }
@@ -160,7 +159,7 @@ process_execute(const char *cmdline)
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(cmdline, PRI_DEFAULT, start_process, cmdline_copy);
 
-    thread_yield();
+    
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 
     // the child. To get ANY of the tests passing, you need to synchronise the 
     // activity of the parent and child threads.

@@ -89,12 +89,12 @@ push_command(const char *cmdline UNUSED, void **esp)
     int i = 0;
 
     //push args onto stack
-    for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
-    {
-        *esp -= strlen(tok)+1;
-        memcpy(*esp, tok, strlen(tok)+1);
+    //for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
+    //{
+        *esp -= strlen("args-none\0")+1;
+        memcpy(*esp, "args-none\0", strlen("args-none\0")+1);
         arg_adr[i] = *esp;
-    }
+    //}
 
     printf("argv[0] adr:  0x%08x\n", (unsigned int)arg_adr[0]);
 

@@ -93,7 +93,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     //push args onto stack
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {
-        *esp -= 4;
+        *esp -= sizeof(int);
         memcpy(*esp, tok,strlen(tok)+1);
         arg_adr[i] = *esp;
     }

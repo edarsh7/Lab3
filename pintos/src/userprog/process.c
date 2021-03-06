@@ -112,7 +112,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     for(int i = argc-1; i>=0;i--)
     {
         *esp -= sizeof(char*);
-        *((uint32_t*)*esp) = (uint32_t)arg_adr[i];
+        *((char**)*esp) = arg_adr[i];
     }
 
     //push address of argv[0]

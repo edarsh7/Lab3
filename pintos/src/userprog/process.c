@@ -159,13 +159,8 @@ process_execute(const char *cmdline)
 
     strlcpy(cmdline_copy, cmdline, PGSIZE);
 
-    char *save = NULL;
-    char *tok = NULL;
-    tok = strtok_r(cmdline, " ", &save);
-
-
     // Create a Kernel Thread for the new process
-    tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, cmdline_copy);
+    tid_t tid = thread_create(cmdline, PRI_DEFAULT, start_process, cmdline_copy);
 
     timer_sleep(100);
     //sema up parent
@@ -193,12 +188,23 @@ start_process(void *cmdline)
     pif.cs = SEL_UCSEG;
     pif.eflags = FLAG_IF | FLAG_MBS;
 
-    bool success = load(cmdline, &pif.eip, &pif.esp);
+    //tokenize to get first argument
+    //makesure cmdline doesnt get altered
+    char *cmdline_copy = palloc_get_page(0);
+
+    strlcpy(cmdline_copy, cmdline, PGSIZE);
+
+    char *save = NULL;
+    char *tok = NULL;
+    tok = strtok_r(cmdline_copy, " ", &save);
+
+    bool success = load(tok, &pif.eip, &pif.esp);
 
     if (success) {
-        push_command(cmdline_copy, &pif.esp);
+        push_command(cmdline, &pif.esp);
     }
     palloc_free_page(cmdline);
+    palloc_free_page(cmdline_copy);
 
     if (!success) {
         thread_exit();

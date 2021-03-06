@@ -131,7 +131,7 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     for(int j = 0; j < 6; j++)
     {
-        printf("adr: 0x%08x\n", *esp+j);
+        printf("adr: 0x%08x\n", (unsigned int)*esp+j);
     }
 
 

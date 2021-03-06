@@ -85,6 +85,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     {
         argc++;
     }
+    printf("argc: %d\n", argc);
 
     save = NULL;
     tok = NULL;

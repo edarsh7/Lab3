@@ -83,7 +83,6 @@ push_command(const char *cmdline UNUSED, void **esp)
     }
 
     
-
     char *save = NULL;
     char *tok = NULL;
     void *arg_adr[argc];
@@ -92,8 +91,8 @@ push_command(const char *cmdline UNUSED, void **esp)
     //push args onto stack
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {
-        *esp -= 4;
-        memcpy(*esp, tok,strlen(tok)+1);
+        *esp -= ;
+        memcpy(*esp, tok, strlen(tok)+1);
         arg_adr[i] = *esp;
     }
 
@@ -110,13 +109,13 @@ push_command(const char *cmdline UNUSED, void **esp)
     //push addresses from end to beginning of array
     for(int i = argc; i>0; i--)
     {
-        *esp -=4;
-        *((void **)*esp) = arg_adr[i-1];
+        *esp -=sizeof(char);
+        *((void**)*esp) = arg_adr[i-1];
     }
 
     //push address of argv[0]
-    *esp -= 4;
-    *((void **)*esp) = *esp+4;
+    *esp -= sizeof(char**);
+    *((void**)*esp) = *esp+4;
 
     //push argc
     *esp -= 4;
@@ -124,7 +123,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     
     //push fake RA
     *esp -= 4;
-    *((int*)*esp) = 0;
+    *((void**)*esp) = 0;
 
     free(temp);
 

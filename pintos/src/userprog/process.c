@@ -117,7 +117,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= 4;
     *((void**)*esp) = *esp+4;
 
-    printf("hey: 0x%08x \n",(unsigned int)*esp);
+    printf("hey: 0x%08x \n",(unsigned int)*esp+4);
     //push argc
     *esp -= 4;
     *((int*)*esp) = argc;

@@ -72,19 +72,22 @@ push_command(const char *cmdline UNUSED, void **esp)
 {
     char *temp = palloc_get_page(0);
     strlcpy(temp, cmdline, PGSIZE);
+    char *temp2 = palloc_get_page(0);
+    strlcpy(temp, cmdline, PGSIZE);
     
-    int argc = 1;
-    const char*iter = cmdline;
-    while(iter)
-    {
-        if(*iter == ' ')
-            argc++;
-        iter++;
-    }
-    printf("argc: %d\n", argc);
+    
 
     char *save = NULL;
     char *tok = NULL;
+    int argc = 0;
+
+    for(tok = strtok_r(temp2, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
+    {
+        argc++;
+    }
+
+    save = NULL;
+    tok = NULL;
     char **arg_adr = palloc_get_page(0);
     int i = 0;
 

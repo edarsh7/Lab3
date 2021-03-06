@@ -160,7 +160,7 @@ process_execute(const char *cmdline)
     strlcpy(cmdline_copy, cmdline, PGSIZE);
 
     // Create a Kernel Thread for the new process
-    tid_t tid = thread_create(cmdline, PRI_DEFAULT, start_process, cmdline_copy);
+    tid_t tid = thread_create(cmdline_copy, PRI_DEFAULT, start_process, cmdline_copy);
 
     timer_sleep(100);
     //sema up parent

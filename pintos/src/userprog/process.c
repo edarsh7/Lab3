@@ -92,11 +92,8 @@ push_command(const char *cmdline UNUSED, void **esp)
     {
         *esp -= strlen(tok)+1;
         memcpy(*esp, tok, strlen(tok)+1);
-        printf("%s \n", tok);
         arg_adr[i] = *esp;
     }
-
-    printf("argv[0] val: %s\n", (char*)((unsigned int)arg_adr[0]));
 
     
     //align stack pointer
@@ -119,7 +116,6 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= 4;
     *((void**)*esp) = *esp+4;
 
-    printf("hey: 0x%08x \n",(unsigned int)*esp);
     //push argc
     *esp -= 4;
     *((int*)*esp) = argc;

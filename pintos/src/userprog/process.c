@@ -98,9 +98,11 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     printf("argv[0] val: %s\n", (char*)((unsigned int)arg_adr[0]));
 
+    
     //align stack pointer
+    *esp -= 4;
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
-    *((char**)*esp) = 0;
+    
 
     //null sentinel
     *esp -= 4;
@@ -117,7 +119,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= 4;
     *((void**)*esp) = *esp+4;
 
-    printf("hey: 0x%08x \n",(unsigned int)*esp+4);
+    printf("hey: 0x%08x \n",(unsigned int)*esp);
     //push argc
     *esp -= 4;
     *((int*)*esp) = argc;

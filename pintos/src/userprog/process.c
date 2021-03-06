@@ -83,18 +83,19 @@ push_command(const char *cmdline UNUSED, void **esp)
     }
 
     
+    
     char *save = NULL;
     char *tok = NULL;
     char **arg_adr = palloc_get_page(0);
     int i = 0;
 
-    //push args onto stack
-    //for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
-    //{
-        *esp -= strlen("args-none\0")+1;
-        memcpy(*esp, "args-none\0", strlen("args-none\0")+1);
+    push args onto stack
+    for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
+    {
+        *esp -= strlen(tok)+1;
+        memcpy(*esp, tok, strlen(tok)+1);
         arg_adr[i] = *esp;
-    //}
+    }
 
     printf("argv[0] adr:  0x%08x\n", (unsigned int)arg_adr[0]);
 
@@ -109,12 +110,12 @@ push_command(const char *cmdline UNUSED, void **esp)
     //push addresses from end to beginning of array
     for(int i = argc; i>0; i--)
     {
-        *esp -=sizeof(char);
+        *esp -= 4;
         *((char**)*esp) = arg_adr[i-1];
     }
 
     //push address of argv[0]
-    *esp -= sizeof(char**);
+    *esp -= 4;
     *((void**)*esp) = *esp+4;
 
     //push argc

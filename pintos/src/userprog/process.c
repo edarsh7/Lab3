@@ -97,7 +97,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     {
         *esp -= strlen(tok)+1;
         memcpy(*esp, tok, strlen(tok)+1);
-        arg_adr[i] = *esp;
+        arg_adr[i++] = *esp;
     }
     palloc_free_page(temp);
     

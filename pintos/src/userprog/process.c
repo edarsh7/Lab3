@@ -70,25 +70,26 @@ static bool load(const char *cmdline, void (**eip) (void), void **esp);
 static void
 push_command(const char *cmdline UNUSED, void **esp)
 {
-    printf("string: %s\n", cmdline);
     char *temp = palloc_get_page(0);
     strlcpy(temp, cmdline, PGSIZE);
     
-    int argc = 1;
-    const char*iter = cmdline;
-    while(iter)
-    {
-        if(*iter == ' ')
-            argc++;
-        iter++;
-    }
-    printf("argc: %d\n", argc);
+    char *temp2 = palloc_get_page(0);
+    strlcpy(temp2, cmdline, PGSIZE);
+    
 
     char *save = NULL;
     char *tok = NULL;
+    int argc = 0;
+
+    for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
+    {
+        argc++;
+    }
+
+    save = NULL;
+    tok = NULL;
     char **arg_adr = palloc_get_page(0);
     int i = 0;
-
     //push args onto stack
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {

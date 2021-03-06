@@ -73,7 +73,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     char *temp = malloc(strlen(cmdline)+1);
     strlcpy(temp, cmdline, strlen(cmdline)+1);
     
-      int argc = 1;
+    int argc = 1;
     const char*iter = cmdline;
     while(iter)
     {
@@ -83,8 +83,7 @@ push_command(const char *cmdline UNUSED, void **esp)
         iter++;
     }
 
-    // Word align with the stack pointer. 
-    *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
+    
 
     char *save = NULL;
     char *tok = NULL;

@@ -104,11 +104,11 @@ push_command(const char *cmdline UNUSED, void **esp)
 
     //align stack pointer
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
-    *((int*)*esp) = 0;
+    *((char**)*esp) = 0;
 
     //null sentinel
     *esp -= 4;
-    *((int*)*esp) = 0;
+    *((char**)*esp) = 0;
 
     //push addresses from end to beginning of array
     for(int i = argc; i>0; i--)
@@ -129,6 +129,10 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= 4;
     *((int*)*esp) = 0;
 
+    for(int j = 0; j < 6; j++)
+    {
+        printf("adr: 0x%08x\n", *esp+j);
+    }
 
 
 

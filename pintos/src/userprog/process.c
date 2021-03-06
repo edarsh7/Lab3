@@ -98,7 +98,7 @@ push_command(const char *cmdline UNUSED, void **esp)
         arg_adr[i] = *esp;
     }
 
-    printf("argv[0] val: %s\n", (char*)((unsigned int)arg_adr[0]));
+    printf("argv[0] val: %s\n", ((unsigned int)arg_adr[0]));
 
     //align stack pointer
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);
@@ -109,10 +109,10 @@ push_command(const char *cmdline UNUSED, void **esp)
     *((char**)*esp) = 0;
 
     //push addresses from end to beginning of array
-    for(int i = argc; i>0; i--)
+    for(int i = argc; i>0;)
     {
         *esp -= 4;
-        *((char**)*esp) = arg_adr[i-1];
+        *((char**)*esp) = arg_adr[(i--)-1];
     }
 
     //push address of argv[0]

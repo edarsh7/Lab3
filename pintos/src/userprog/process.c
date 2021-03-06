@@ -94,6 +94,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     {
         *esp -= strlen(tok)+1;
         memcpy(*esp, tok, strlen(tok)+1);
+        printf("%s \n", tok);
         arg_adr[i] = *esp;
     }
 

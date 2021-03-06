@@ -81,7 +81,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     char *tok = NULL;
     int argc = 0;
 
-    for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
+    for(tok = strtok_r(temp2, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {
         argc++;
     }
@@ -90,6 +90,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     tok = NULL;
     char **arg_adr = palloc_get_page(0);
     int i = 0;
+
     //push args onto stack
     for(tok = strtok_r(temp, " ", &save); tok != NULL; tok = strtok_r(NULL, " ", &save))
     {

@@ -82,8 +82,6 @@ push_command(const char *cmdline UNUSED, void **esp)
         iter++;
     }
 
-    
-    
     char *save = NULL;
     char *tok = NULL;
     char **arg_adr = palloc_get_page(0);
@@ -119,6 +117,7 @@ push_command(const char *cmdline UNUSED, void **esp)
     *esp -= 4;
     *((void**)*esp) = *esp+4;
 
+    printf("hey: %s \n", *esp);
     //push argc
     *esp -= 4;
     *((int*)*esp) = argc;

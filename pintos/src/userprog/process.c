@@ -188,8 +188,6 @@ start_process(void *cmdline)
     //tokenize to get first argument
     //makesure cmdline doesnt get altered
     char *cmdline_copy = palloc_get_page(0);
-    if (cmdline_copy == NULL)
-        return TID_ERROR;
 
     strlcpy(cmdline_copy, cmdline, PGSIZE);
 

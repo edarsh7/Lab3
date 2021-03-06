@@ -193,7 +193,7 @@ start_process(void *cmdline)
     pif.cs = SEL_UCSEG;
     pif.eflags = FLAG_IF | FLAG_MBS;
 
-    bool success = load(tok, &pif.eip, &pif.esp);
+    bool success = load(cmdline, &pif.eip, &pif.esp);
 
     if (success) {
         push_command(cmdline_copy, &pif.esp);

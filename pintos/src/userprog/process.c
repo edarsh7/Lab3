@@ -98,7 +98,7 @@ push_command(const char *cmdline UNUSED, void **esp)
         arg_adr[i] = *esp;
     }
 
-    printf("argv[0] val: %s\n", ((unsigned int)arg_adr[0]));
+    printf("argv[0] val: %s\n", (char*)((unsigned int)arg_adr[0]));
 
     //align stack pointer
     *esp = (void*) ((unsigned int) (*esp) & 0xfffffffc);

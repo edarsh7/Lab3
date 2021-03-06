@@ -70,8 +70,8 @@ static bool load(const char *cmdline, void (**eip) (void), void **esp);
 static void
 push_command(const char *cmdline UNUSED, void **esp)
 {
-    char *temp = palloc_get_page(0);
-    strlcpy(temp, cmdline, PGSIZE);
+    char *temp = malloc(strlen(cmdline)+1);
+    strlcpy(temp, cmdline, strlen(cmdline)+1);
 
 
     int argc = 1;
@@ -128,12 +128,6 @@ push_command(const char *cmdline UNUSED, void **esp)
     //push fake RA
     *esp -= 4;
     *((int*)*esp) = 0;
-
-    for(int j = 0; j < 6; j++)
-    {
-        printf("adr: 0x%08x\n", (unsigned int)*esp+(j*4));
-    }
-
 
 
     // Some of your CSE130 Lab 3 code will go here.

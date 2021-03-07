@@ -201,10 +201,10 @@ start_process(void *cmdline)
     pif.cs = SEL_UCSEG;
     pif.eflags = FLAG_IF | FLAG_MBS;
 
-    struct process_struct temp = *cmdline;
+    struct process_struct * temp = cmdline;
 
     char *cmdline_copy = palloc_get_page(0);
-    strlcpy(cmdline_copy, temp.cmdline_cpy, PGSIZE);
+    strlcpy(cmdline_copy, temp->cmdline_cpy, PGSIZE);
 
     char *save = NULL;
     char * tok = NULL;
@@ -214,7 +214,7 @@ start_process(void *cmdline)
     bool success = load(cmdline_copy, &pif.eip, &pif.esp);
 
     if (success) {
-        push_command(temp.cmdline_cpy, &pif.esp);
+        push_command(temp->cmdline_cpy, &pif.esp);
     }
 
     semaphore_up(temp.sema);

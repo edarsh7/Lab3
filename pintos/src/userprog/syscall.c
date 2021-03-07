@@ -99,7 +99,7 @@ syscall_handler(struct intr_frame *f)
     break;
 
   case SYS_READ:
-    READ_handler(f);
+    read_handler(f);
     break;
 
   default:

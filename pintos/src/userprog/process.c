@@ -160,7 +160,7 @@ process_execute(const char *cmdline)
 {
     // Make a copy of CMDLINE to avoid a race condition between the caller and load() 
     struct process_struct p_strct;
-    semaphore_init(&p_strct->sema, 0);
+    semaphore_init(&p_strct.sema, 0);
     p_strct.cmdline_cpy = palloc_get_page(0);
     
     if (p_strct.cmdline_cpy == NULL)
@@ -174,7 +174,7 @@ process_execute(const char *cmdline)
 
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, &p_strct);
-    semaphore_down(&p_strct->sema);
+    semaphore_down(&p_strct.sema);
     
 
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 

@@ -55,7 +55,6 @@ static void syscall_handler(struct intr_frame *);
 static void write_handler(struct intr_frame *);
 static void create_handler(struct intr_frame *);
 static void open_handler(struct intr_frame *);
-static void read_handler(struct intr_frame *);
 static void exit_handler(struct intr_frame *);
 
 void
@@ -98,9 +97,7 @@ syscall_handler(struct intr_frame *f)
     open_handler(f);
     break;
 
-  case SYS_READ:
-    read_handler(f);
-    break;
+
 
   default:
     printf("[ERROR] system call %d is unimplemented!\n", syscall);
@@ -192,29 +189,5 @@ static void open_handler(struct intr_frame *f)
 
     int x = sys_open(fname);
     f->eax =  x;
-}
-
-static int sys_read(struct file * f, char *buf, int size)
-{
-  return file_read(f, buf, size);
-}
-
-
-static void read_handler(struct intr_frame *f)
-{
-  printf("HI");
-    struct file * open_f;
-    int size;
-    char *buf;
-    umem_read(f->esp + 4, &open_f, sizeof(open_f));
-    umem_read(f->esp + 8, &buf, sizeof(buf));
-    umem_read(f->esp + 12, &size, sizeof(size));
-
-    printf("%d", size);
-    printf("%s string XXX\n",buf);
-    int bytes = sys_read(open_f, buf, size);
-    
-
-    f->eax =  bytes;
 }
 

@@ -175,7 +175,7 @@ process_execute(const char *cmdline)
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, &p_strct);
     
-    semaphore_down(&p_strct.sema);
+    //semaphore_down(&p_strct.sema);
     
 
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 
@@ -218,7 +218,7 @@ start_process(void *cmdline)
         push_command(temp->cmdline_cpy, &pif.esp);
     }
 
-    semaphore_up(&temp->sema);
+    //semaphore_up(&temp->sema);
 
     if (!success) {
         thread_exit();

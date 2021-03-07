@@ -141,6 +141,7 @@ struct thread
     struct dir *cwd;	   // Current Working Directory, if any
 
     struct semaphore * process_sema;
+    int fd;
 
     // Owned by thread.c. 
     unsigned magic;        // Detects stack overflow. 

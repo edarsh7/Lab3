@@ -171,9 +171,6 @@ static void create_handler(struct intr_frame *f)
 static int sys_open(char* fname)
 {
   struct file * opened;
-  struct file_desc * fd = palloc_get_page(0);
-  if(!fd)
-    return -1;
   
   opened = filesys_open(fname);
   if(!opened)
@@ -181,7 +178,7 @@ static int sys_open(char* fname)
 
 
 
-  return 2;
+  return ++thread_current()->fd;
 }
 
 

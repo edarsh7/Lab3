@@ -266,8 +266,11 @@ thread_create (const char *name, int priority,
   sf->ebp = 0;
 
   t->fd = 1;
+  if(thread_current() != NULL)
+  {
+    init_child_info(t, thread_current());
+  }
   
-
   /* Add to run queue. */
   thread_unblock (t);
 

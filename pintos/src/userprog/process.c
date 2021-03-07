@@ -168,7 +168,7 @@ process_execute(const char *cmdline)
 
     
     struct thread *td = return_td_tid(tid);
-    sema_down(td->process_sema);
+    semaphore_down(td->process_sema);
 
     //sema up parent
 
@@ -216,7 +216,7 @@ start_process(void *cmdline)
         thread_exit();
     }
 
-    sema_up(td->process_sema);
+    semaphore_up(td->process_sema);
 
     // Start the user process by simulating a return from an
     // interrupt, implemented by intr_exit (in threads/intr-stubs.S).  

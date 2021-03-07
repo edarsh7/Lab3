@@ -266,6 +266,7 @@ thread_create (const char *name, int priority,
   sf->ebp = 0;
 
   t->fd = 1;
+  
 
   /* Add to run queue. */
   thread_unblock (t);
@@ -718,4 +719,12 @@ struct thread * return_td_tid(tid_t tid)
     t = NULL;
   }
   return t;
+}
+
+void init_child_info(struct thread *c, struct thread *p)
+{
+  p->cd_info = malloc(sizeof(struct child_info));
+  p->cd_info->tid = c->tid;
+  p->cd_info->completed_wait = 0;
+  p->cd_info->exit_status = 0;
 }

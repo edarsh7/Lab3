@@ -119,6 +119,15 @@ typedef int tid_t;
 //   ready state is on the run queue, whereas only a thread in the
 //   blocked state is on a semaphore wait list. 
 */
+struct child_info
+  {
+    int exit_status;
+    tid_t tid;
+    tid_t parent_tid;
+    int completed_wait;
+  } child_info;
+
+
 struct thread
   {
     // Owned by thread.c. 
@@ -142,10 +151,12 @@ struct thread
 
     struct semaphore * process_sema;
     int fd;
+    struct child_info * cd_info;
 
     // Owned by thread.c. 
     unsigned magic;        // Detects stack overflow. 
   };
+
 
 // If false(default), use round-robin scheduler.
 // If true, use multi-level feedback queue scheduler.
@@ -187,5 +198,6 @@ int thread_get_recent_cpu(void);
 int thread_get_load_avg(void);
 
 struct thread * return_td_tid(tid_t tid);
+void init_child_info(struct thread *c, struct thread *p);
 
 #endif // threads/thread.h 

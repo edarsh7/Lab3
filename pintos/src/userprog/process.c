@@ -174,6 +174,7 @@ process_execute(const char *cmdline)
 
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, &p_strct);
+    
     semaphore_down(&p_strct.sema);
     
 
@@ -218,9 +219,7 @@ start_process(void *cmdline)
         push_command(temp->cmdline_cpy, &pif.esp);
     }
 
-
     semaphore_up(&temp->sema);
-
 
     if (!success) {
         thread_exit();
@@ -251,6 +250,7 @@ start_process(void *cmdline)
 int
 process_wait(tid_t child_tid UNUSED)
 {
+    timer_sleep(100);
     return -1;
 }
 

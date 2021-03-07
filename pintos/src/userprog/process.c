@@ -160,7 +160,7 @@ process_execute(const char *cmdline)
 {
     // Make a copy of CMDLINE to avoid a race condition between the caller and load() 
     struct process_struct p_strct;
-    semaphore_init(p_strct.sema, 0);
+    semaphore_init(&p_strct.sema, 0);
     p_strct.cmdline_cpy = palloc_get_page(0);
     
     if (p_strct.cmdline_cpy == NULL)

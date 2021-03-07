@@ -216,9 +216,11 @@ start_process(void *cmdline)
     if (success) {
         push_command(temp->cmdline_cpy, &pif.esp);
     }
-    palloc_free_page(cmdline);
 
     semaphore_up(temp->sema);
+
+    palloc_free_page(cmdline);
+
     if (!success) {
         thread_exit();
     }

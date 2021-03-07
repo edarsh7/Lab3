@@ -210,13 +210,14 @@ start_process(void *cmdline)
     char * tok = NULL;
     tok = strtok_r(cmdline_copy, " ", &save);
 
-    palloc_free_page(cmdline_copy);
 
     bool success = load(cmdline_copy, &pif.eip, &pif.esp);
 
+    palloc_free_page(cmdline_copy);
     if (success) {
         push_command(temp->cmdline_cpy, &pif.esp);
     }
+
 
     semaphore_up(&temp->sema);
 

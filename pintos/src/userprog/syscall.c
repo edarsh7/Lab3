@@ -149,7 +149,7 @@ static void write_handler(struct intr_frame *f)
 static int sys_create(char* fname, int isize)
 {
   bool ret;
-  filesys_create(fname, isize, ret);
+  ret = filesys_create(fname, isize, ret);
   return ret;
 }
 
@@ -159,7 +159,6 @@ static void create_handler(struct intr_frame *f)
     int isize;
     umem_read(f->esp + 4, &fname, sizeof(fname));
     umem_read(f->esp + 8, &isize, sizeof(isize));
-
 
     f->eax = sys_create(fname, isize);
 }

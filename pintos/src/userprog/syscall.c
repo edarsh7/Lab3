@@ -184,7 +184,7 @@ static void open_handler(struct intr_frame *f)
     const char * fname;
     umem_read(f->esp + 4, &fname, sizeof(fname));
 
-    struct file x = &sys_open(fname);
+    struct file x = *(sys_open(fname));
     f->eax = x;
 }
 

@@ -207,6 +207,7 @@ start_process(void *cmdline)
     strlcpy(cmdline_copy, temp->cmdline_cpy, PGSIZE);
 
     char *save = NULL;
+    char * tok = NULL;
     tok = strtok_r(cmdline_copy, " ", &save);
 
 

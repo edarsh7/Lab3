@@ -173,7 +173,7 @@ process_execute(const char *cmdline)
     tok = strtok_r(cmdline, " ", &save);
 
     // Create a Kernel Thread for the new process
-    tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, (void*)p_strct);
+    tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, &p_strct);
     semaphore_down(p_strct.sema);
     
 
@@ -192,6 +192,7 @@ process_execute(const char *cmdline)
 static void
 start_process(void *cmdline)
 {
+
     // Initialize interrupt frame and load executable. 
     struct intr_frame pif;
     memset(&pif, 0, sizeof pif);
@@ -201,7 +202,7 @@ start_process(void *cmdline)
     pif.eflags = FLAG_IF | FLAG_MBS;
 
     char *cmdline_copy = palloc_get_page(0);
-    strlcpy(cmdline_copy, (char*)(cmdline->cmdline_cpy), PGSIZE);
+    strlcpy(cmdline_copy, cmdline->cmdline_cpy, PGSIZE);
 
     char *save = NULL;
     char *tok = NULL;

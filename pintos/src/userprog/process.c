@@ -167,7 +167,7 @@ process_execute(const char *cmdline)
     tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, cmdline_copy);
 
     
-    struct thread *td = thread_tid(tid);
+    struct thread *td = return_td_tid(tid);
     sema_down(td->process_sema);
 
     //sema up parent

@@ -185,6 +185,6 @@ void thread_set_nice(int);
 int thread_get_recent_cpu(void);
 int thread_get_load_avg(void);
 
-struct thread * thread_tid(tid_t tid);
+struct thread * return_td_tid(tid_t tid);
 
 #endif // threads/thread.h 

@@ -264,7 +264,7 @@ thread_create (const char *name, int priority,
   sf->eip = switch_entry;
   sf->ebp = 0;
 
-  semaphore_init(t->process_lock, 0);
+  semaphore_init(t->process_sema, 0);
 
   /* Add to run queue. */
   thread_unblock (t);
@@ -705,7 +705,7 @@ uint32_t thread_stack_ofs = offsetof (struct thread, stack);
 
 struct thread * return_td_tid(tid_t tid)
 {
-  struct list_sleme *e;
+  struct list_elem *e;
   struct thread *t = NULL;
   for(e = list_begin(&all_list); e != list_end(&all_list); e = list_next(e))
   {

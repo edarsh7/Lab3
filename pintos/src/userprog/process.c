@@ -165,10 +165,8 @@ process_execute(const char *cmdline)
 
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, cmdline_copy);
-    
+
     timer_sleep(100);
-
-
 
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 
     // the child. To get ANY of the tests passing, you need to synchronise the 
@@ -213,8 +211,6 @@ start_process(void *cmdline)
     if (!success) {
         thread_exit();
     }
-
-    //semaphore_up(td->process_sema);
 
     // Start the user process by simulating a return from an
     // interrupt, implemented by intr_exit (in threads/intr-stubs.S).  

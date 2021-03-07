@@ -1,4 +1,4 @@
-c/* 
+/* 
  * This file is derived from source code for the Pintos
  * instructional operating system which is itself derived
  * from the Nachos instructional operating system. The 
@@ -52,11 +52,8 @@ c/*
 
 static void syscall_handler(struct intr_frame *);
 
-static uint32_t sys_write(int fd, const void *buffer, unsigned size);
 static void write_handler(struct intr_frame *);
 static void exit_handler(struct intr_frame *);
-static bool sys_create(char *fname, int isize);
-static void create_handler(struct intr_frame *)
 
 void
 syscall_init (void)
@@ -89,11 +86,6 @@ syscall_handler(struct intr_frame *f)
   case SYS_WRITE: 
     write_handler(f);
     break;
-  
-  case SYS_CREATE:
-    create_handler(f);
-    break;
-  
 
   default:
     printf("[ERROR] system call %d is unimplemented!\n", syscall);
@@ -149,16 +141,3 @@ static void write_handler(struct intr_frame *f)
     f->eax = sys_write(fd, buffer, size);
 }
 
-static bool sys_create(char *fname, int isize)
-{
-  return;
-}
-
-static void create_handler(struct intr_frame *f)
-{
-  const char* fname;
-  int isize;
-  umem_read(f->esp + 4, &fname, sizeof(fname));
-  umem_read(f->esp + 8, &isize, sizeof(isize));
-  f->eax = sys_create(fname, isize);
-}

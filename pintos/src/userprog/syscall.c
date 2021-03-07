@@ -148,14 +148,8 @@ static void write_handler(struct intr_frame *f)
 
 static int sys_create(char* fname, int isize)
 {
-  if(fname = NULL)
-  {
-    return 0;
-  }
-  else
-  {
-    return 1;
-  }
+  bool ret = filesys_create(fname, isize);
+  return ret;
 }
 
 static void create_handler(struct intr_frame *f)

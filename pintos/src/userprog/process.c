@@ -218,11 +218,11 @@ start_process(void *cmdline)
     }
     palloc_free_page(cmdline);
 
+    semaphore_up(temp->sema);
     if (!success) {
         thread_exit();
     }
 
-    semaphore_up(temp->sema);
 
     
 

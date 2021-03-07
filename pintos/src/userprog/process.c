@@ -161,8 +161,8 @@ process_execute(const char *cmdline)
     // Make a copy of CMDLINE to avoid a race condition between the caller and load() 
     struct process_struct p_strct;
     semaphore_init(p_strct.sema, 0);
-
     p_strct.cmdline_cpy = palloc_get_page(0);
+    
     if (p_strct.cmdline_cpy == NULL)
         return TID_ERROR;
 
@@ -201,18 +201,19 @@ start_process(void *cmdline)
     pif.cs = SEL_UCSEG;
     pif.eflags = FLAG_IF | FLAG_MBS;
 
+    struct process_struct* temp = cmdline;
+
     char *cmdline_copy = palloc_get_page(0);
-    strlcpy(cmdline_copy, *cmdline->cmdline_cpy, PGSIZE);
+    strlcpy(cmdline_copy, temp->cmdline_cpy, PGSIZE);
 
     char *save = NULL;
-    char *tok = NULL;
     tok = strtok_r(cmdline_copy, " ", &save);
 
 
     bool success = load(cmdline_copy, &pif.eip, &pif.esp);
 
     if (success) {
-        push_command(cmdline->cmdline_cpy, &pif.esp);
+        push_command(temp->cmdline_cpy, &pif.esp);
     }
     palloc_free_page(cmdline);
 
@@ -220,7 +221,7 @@ start_process(void *cmdline)
         thread_exit();
     }
 
-    semaphore_up(cmdline->sema);
+    semaphore_up(temp->sema);
 
     
 

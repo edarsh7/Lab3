@@ -55,6 +55,7 @@ static void syscall_handler(struct intr_frame *);
 static void write_handler(struct intr_frame *);
 static void create_handler(struct intr_frame *);
 static void open_handler(struct intr_frame *);
+static void read_handler(struct intr_frame *);
 static void exit_handler(struct intr_frame *);
 
 void
@@ -95,6 +96,10 @@ syscall_handler(struct intr_frame *f)
 
   case SYS_OPEN:
     open_handler(f);
+    break;
+
+  case SYS_READ:
+    READ_handler(f);
     break;
 
   default:
@@ -176,8 +181,6 @@ static int sys_open(char* fname)
   if(!opened)
     return -1;
 
-
-
   return ++thread_current()->fd;
 }
 
@@ -189,5 +192,26 @@ static void open_handler(struct intr_frame *f)
 
     int x = sys_open(fname);
     f->eax =  x;
+}
+
+static int sys_read(struct file * f, char *buf, int size)
+{
+  return file_read(f, buf, size);
+}
+
+
+static void read_handler(struct intr_frame *f)
+{
+    struct file * open_f;
+    int size;
+    char *buf;
+    umem_read(f->esp + 4, &open_f, sizeof(open_f));
+    umem_read(f->esp + 8, &buf, sizeof(buf));
+    umem_read(f->esp + 12, &size, sizeof(size));
+
+    int bytes = sys_read(open_f, buf, size);
+    
+
+    f->eax =  bytes;
 }
 

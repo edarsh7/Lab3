@@ -167,10 +167,9 @@ process_execute(const char *cmdline)
     tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, cmdline_copy);
 
     
-    struct thread *td = return_td_tid(tid);
-    semaphore_down(td->process_sema);
+    timer_sleep(100);
 
-    //sema up parent
+
 
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 
     // the child. To get ANY of the tests passing, you need to synchronise the 
@@ -216,7 +215,7 @@ start_process(void *cmdline)
         thread_exit();
     }
 
-    semaphore_up(td->process_sema);
+    //semaphore_up(td->process_sema);
 
     // Start the user process by simulating a return from an
     // interrupt, implemented by intr_exit (in threads/intr-stubs.S).  

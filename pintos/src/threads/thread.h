@@ -140,7 +140,7 @@ struct thread
                            // i.e the current value of the user program’s stack pointer
     struct dir *cwd;	   // Current Working Directory, if any
 
-    struct semaphore process_sema;
+    struct semaphore * process_sema;
 
     // Owned by thread.c. 
     unsigned magic;        // Detects stack overflow. 

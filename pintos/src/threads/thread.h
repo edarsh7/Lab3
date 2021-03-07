@@ -140,6 +140,8 @@ struct thread
                            // i.e the current value of the user program’s stack pointer
     struct dir *cwd;	   // Current Working Directory, if any
 
+    struct semaphore process_sema;
+
     // Owned by thread.c. 
     unsigned magic;        // Detects stack overflow. 
   };
@@ -182,5 +184,7 @@ int thread_get_nice(void);
 void thread_set_nice(int);
 int thread_get_recent_cpu(void);
 int thread_get_load_avg(void);
+
+struct thread * thread_tid(tid_t tid);
 
 #endif // threads/thread.h 

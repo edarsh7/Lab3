@@ -264,6 +264,8 @@ thread_create (const char *name, int priority,
   sf->eip = switch_entry;
   sf->ebp = 0;
 
+  semaphore_init(t->process_lock, 0);
+
   /* Add to run queue. */
   thread_unblock (t);
 
@@ -697,3 +699,22 @@ comparator_greater_thread_priority (
 /* Offset of `stack' member within `struct thread'.
    Used by switch.S, which can't figure it out on its own. */
 uint32_t thread_stack_ofs = offsetof (struct thread, stack);
+
+/* -0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0- */
+
+
+struct thread* thread_tid(tid_t tid)
+{
+  struct list_sleme *e;
+  struct thread *t = NULL;
+  for(e = list_begin(&all_list); e != list_end(&all_list); e = list_next(e))
+  {
+    t = list_entry(e, struct thread, allelem);
+    if(t->tid == tid)
+    {
+      break;
+    }
+    t = NULL;
+  }
+  return t;
+}

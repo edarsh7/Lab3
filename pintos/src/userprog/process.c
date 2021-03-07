@@ -192,6 +192,7 @@ process_execute(const char *cmdline)
 static void
 start_process(void *cmdline)
 {
+    cmdline = (struct process_struct)cmdline;
     // Initialize interrupt frame and load executable. 
     struct intr_frame pif;
     memset(&pif, 0, sizeof pif);

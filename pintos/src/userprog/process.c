@@ -158,7 +158,7 @@ push_command(const char *cmdline UNUSED, void **esp)
 tid_t
 process_execute(const char *cmdline)
 {
-    printf("process_execute called \n");
+    printf("process_execute called tid: %d\n", thread_current()->tid);
     // Make a copy of CMDLINE to avoid a race condition between the caller and load() 
     struct process_struct p_strct;
     semaphore_init(&p_strct.sema, 0);
@@ -194,7 +194,7 @@ process_execute(const char *cmdline)
 static void
 start_process(void *cmdline)
 {
-    printf("start_process called \n");
+    printf("start called tid: %d\n", thread_current()->tid);
     // Initialize interrupt frame and load executable. 
     struct intr_frame pif;
     memset(&pif, 0, sizeof pif);
@@ -251,7 +251,7 @@ start_process(void *cmdline)
 int
 process_wait(tid_t child_tid UNUSED)
 {
-    printf("process_wait called \n");
+    printf("process_wait called tid: %d\n", thread_current()->tid);
     timer_sleep(100);
     return -1;
 }
@@ -260,7 +260,7 @@ process_wait(tid_t child_tid UNUSED)
 void
 process_exit(void)
 {
-    printf("process_exit called \n");
+    printf("process_exit called tid: %d\n", thread_current()->tid);
     struct thread *cur = thread_current();
     uint32_t *pd;
 

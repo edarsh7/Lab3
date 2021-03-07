@@ -703,7 +703,7 @@ uint32_t thread_stack_ofs = offsetof (struct thread, stack);
 /* -0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0- */
 
 
-struct thread* thread_tid(tid_t tid)
+struct thread * thread_tid(tid_t tid)
 {
   struct list_sleme *e;
   struct thread *t = NULL;

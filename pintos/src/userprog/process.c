@@ -166,7 +166,10 @@ process_execute(const char *cmdline)
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, cmdline_copy);
 
-    timer_sleep(100);
+    
+    struct thread *td = thread_tid(tid);
+    sema_down(td->process_sema);
+
     //sema up parent
 
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 
@@ -184,6 +187,7 @@ process_execute(const char *cmdline)
 static void
 start_process(void *cmdline)
 {
+    struct thread *td = thread_current();
     // Initialize interrupt frame and load executable. 
     struct intr_frame pif;
     memset(&pif, 0, sizeof pif);
@@ -194,7 +198,6 @@ start_process(void *cmdline)
 
     char *cmdline_copy = palloc_get_page(0);
     strlcpy(cmdline_copy, cmdline, PGSIZE);
-
 
     char *save = NULL;
     char *tok = NULL;
@@ -212,6 +215,8 @@ start_process(void *cmdline)
     if (!success) {
         thread_exit();
     }
+
+    sema_up(td->process_sema);
 
     // Start the user process by simulating a return from an
     // interrupt, implemented by intr_exit (in threads/intr-stubs.S).  

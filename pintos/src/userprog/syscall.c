@@ -53,6 +53,7 @@
 static void syscall_handler(struct intr_frame *);
 
 static void write_handler(struct intr_frame *);
+static void create_handler(struct intr_frame *);
 static void exit_handler(struct intr_frame *);
 
 void
@@ -85,6 +86,10 @@ syscall_handler(struct intr_frame *f)
       
   case SYS_WRITE: 
     write_handler(f);
+    break;
+
+  case SYS_CREATE:
+    create_handler(f);
     break;
 
   default:
@@ -141,3 +146,18 @@ static void write_handler(struct intr_frame *f)
     f->eax = sys_write(fd, buffer, size);
 }
 
+static int sys_create(char* fname, int isize)
+{
+  return 1;
+}
+
+static void create_handler(struct intr_frame *f)
+{
+    const char * fname;
+    int isize;
+    umem_read(f->esp + 4, &fname, sizeof(fname));
+    umem_read(f->esp + 8, &isize, sizeof(isize));
+
+
+    f->eax = sys_create(fname, isize);
+}

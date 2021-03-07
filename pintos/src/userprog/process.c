@@ -62,6 +62,12 @@
 static thread_func start_process NO_RETURN;
 static bool load(const char *cmdline, void (**eip) (void), void **esp);
 
+struct process_struct
+{
+    char * cmdline_cpy;
+    struct semaphore * sema;
+}process_struct;
+
 /*
  * Push the command and arguments found in CMDLINE onto the stack, world 
  * aligned with the stack pointer ESP. Should only be called after the ELF 
@@ -153,20 +159,23 @@ tid_t
 process_execute(const char *cmdline)
 {
     // Make a copy of CMDLINE to avoid a race condition between the caller and load() 
-    char *cmdline_copy = palloc_get_page(0);
-    if (cmdline_copy == NULL)
+    struct process_struct p_strct;
+    semaphore_init(p_strct.sema, 0);
+
+    p_strct.cmdline_cpy = palloc_get_page(0);
+    if (p_strct.cmdline_cpy == NULL)
         return TID_ERROR;
 
-    strlcpy(cmdline_copy, cmdline, PGSIZE);
+    strlcpy(p_strct.cmdline_cpy, cmdline, PGSIZE);
 
     char *save = NULL;
     char *tok = NULL;
     tok = strtok_r(cmdline, " ", &save);
 
     // Create a Kernel Thread for the new process
-    tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, cmdline_copy);
-
-    timer_sleep(100);
+    tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, p_strct);
+    semaphore_down(p_strct.sema);
+    
 
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 
     // the child. To get ANY of the tests passing, you need to synchronise the 
@@ -183,7 +192,6 @@ process_execute(const char *cmdline)
 static void
 start_process(void *cmdline)
 {
-    struct thread *td = thread_current();
     // Initialize interrupt frame and load executable. 
     struct intr_frame pif;
     memset(&pif, 0, sizeof pif);
@@ -193,7 +201,7 @@ start_process(void *cmdline)
     pif.eflags = FLAG_IF | FLAG_MBS;
 
     char *cmdline_copy = palloc_get_page(0);
-    strlcpy(cmdline_copy, cmdline, PGSIZE);
+    strlcpy(cmdline_copy, cmdline->cmdline_cpy, PGSIZE);
 
     char *save = NULL;
     char *tok = NULL;
@@ -203,14 +211,17 @@ start_process(void *cmdline)
     bool success = load(cmdline_copy, &pif.eip, &pif.esp);
 
     if (success) {
-        push_command(cmdline, &pif.esp);
+        push_command(cmdline->cmdline_cpy, &pif.esp);
     }
     palloc_free_page(cmdline);
-
 
     if (!success) {
         thread_exit();
     }
+
+    semaphore_up(cmdline->sema);
+
+    
 
     // Start the user process by simulating a return from an
     // interrupt, implemented by intr_exit (in threads/intr-stubs.S).  

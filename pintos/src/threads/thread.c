@@ -250,7 +250,6 @@ thread_create (const char *name, int priority,
   tid = t->tid = allocate_tid ();
 
 
-
   /* Stack frame for kernel_thread(). */
   kf = alloc_frame (t, sizeof *kf);
   kf->eip = NULL;
@@ -266,7 +265,6 @@ thread_create (const char *name, int priority,
   sf->eip = switch_entry;
   sf->ebp = 0;
 
-  
 
   /* Add to run queue. */
   thread_unblock (t);

@@ -217,7 +217,7 @@ start_process(void *cmdline)
         push_command(temp->cmdline_cpy, &pif.esp);
     }
 
-    semaphore_up(temp->sema);
+    semaphore_up(&temp->sema);
 
     palloc_free_page(cmdline);
 

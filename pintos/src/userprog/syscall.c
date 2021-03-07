@@ -202,6 +202,7 @@ static int sys_read(struct file * f, char *buf, int size)
 
 static void read_handler(struct intr_frame *f)
 {
+  printf("HI");
     struct file * open_f;
     int size;
     char *buf;

@@ -52,9 +52,11 @@ c/*
 
 static void syscall_handler(struct intr_frame *);
 
+static uint32_t sys_write(int fd, const void *buffer, unsigned size);
 static void write_handler(struct intr_frame *);
 static void exit_handler(struct intr_frame *);
-static void create_handler(struct intr_frame *);
+static bool sys_create(char *fname, int isize);
+static void create_handler(struct intr_frame *)
 
 void
 syscall_init (void)

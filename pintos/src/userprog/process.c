@@ -249,6 +249,7 @@ start_process(void *cmdline)
 int
 process_wait(tid_t child_tid UNUSED)
 {
+    timer_sleep(100);
     return -1;
 }
 

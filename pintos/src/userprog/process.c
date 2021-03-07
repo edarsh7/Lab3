@@ -165,7 +165,6 @@ process_execute(const char *cmdline)
 
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, cmdline_copy);
-
     
     timer_sleep(100);
 

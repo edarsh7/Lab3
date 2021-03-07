@@ -168,14 +168,20 @@ static void create_handler(struct intr_frame *f)
     f->eax = sys_create(fname, isize);
 }
 
-static struct file * sys_open(char* fname)
+static int sys_open(char* fname)
 {
-  struct file * opened_file;
-  opened_file = filesys_open(fname);
-  if(opened_file != NULL)
-    return opened_file;
+  struct file * opened;
+  struct file_desc * fd = palloc_get_page(0);
+  if(!fd)
+    return -1;
+  
+  opened = filesys_open(fname);
+  if(!opened)
+    return -1;
 
-  return NULL;
+
+
+  return 2;
 }
 
 

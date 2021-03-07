@@ -171,7 +171,7 @@ static void create_handler(struct intr_frame *f)
 static struct file * sys_open(char* fname)
 {
   struct file * opened_file;
-  opened_file = filesys_open(fname)
+  opened_file = filesys_open(fname);
   if(opened_file != NULL)
     return opened_file;
 

@@ -209,6 +209,8 @@ static void read_handler(struct intr_frame *f)
     umem_read(f->esp + 8, &buf, sizeof(buf));
     umem_read(f->esp + 12, &size, sizeof(size));
 
+    printf("%d", size);
+    printf("%s string XXX\n",buf);
     int bytes = sys_read(open_f, buf, size);
     
 

@@ -54,6 +54,7 @@ static void syscall_handler(struct intr_frame *);
 
 static void write_handler(struct intr_frame *);
 static void create_handler(struct intr_frame *);
+static void open_handler(struct intr_frame *);
 static void exit_handler(struct intr_frame *);
 
 void
@@ -90,6 +91,10 @@ syscall_handler(struct intr_frame *f)
 
   case SYS_CREATE:
     create_handler(f);
+    break;
+
+  case SYS_OPEN:
+    open_handler(f);
     break;
 
   default:
@@ -161,4 +166,23 @@ static void create_handler(struct intr_frame *f)
     umem_read(f->esp + 8, &isize, sizeof(isize));
 
     f->eax = sys_create(fname, isize);
+}
+
+static struct file * sys_open(char* fname)
+{
+  struct file * opened_file;
+  opened_file = filesys_open(fname)
+  if(opened_file != NULL)
+    return opened_file;
+
+  return NULL;
+}
+
+
+static void open_handler(struct intr_frame *f)
+{
+    const char * fname;
+    umem_read(f->esp + 4, &fname, sizeof(fname));
+
+    f->eax = sys_open(fname);
 }

@@ -280,7 +280,7 @@ process_wait(tid_t child_tid UNUSED)
 
     
     semaphore_down(&ps->shared);
-    printf(" %d ", ps->exit_code)
+    printf(" %d ", ps->exit_code);
     
     
     return -1;

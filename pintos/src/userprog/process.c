@@ -190,8 +190,8 @@ process_execute(const char *cmdline)
     if(tid == TID_ERROR)
         return TID_ERROR;
 
-    ps->pid = tid;
-    list_push_back(&thread_current()->children, &ps->child);
+
+    //list_push_back(&thread_current()->children, &ps->child);
 
    
     semaphore_down(&ps->exec);
@@ -242,8 +242,7 @@ start_process(void *cmdline)
         push_command(cmdline_copy2, &pif.esp);
     }
 
-
-    semaphore_up(&temp->exec);
+   semaphore_up(&temp->exec);
 
     if (!success) {
         thread_exit();

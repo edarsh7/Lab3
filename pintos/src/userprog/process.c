@@ -76,7 +76,7 @@ struct process_status
     int waited;
     struct semaphore shared;
 
-}process_status;
+};
 
 /*
  * Push the command and arguments found in CMDLINE onto the stack, world 

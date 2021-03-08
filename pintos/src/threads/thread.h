@@ -143,7 +143,7 @@ struct thread
 
     struct semaphore * process_sema;
     int fd;
-    process_status * p_stat;
+    struct process_status * p_stat;
     struct list children;
 
     // Owned by thread.c. 

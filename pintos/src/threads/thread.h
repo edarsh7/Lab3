@@ -62,16 +62,6 @@ typedef int tid_t;
 #define PRI_MAX 63                      /* Highest priority. */
 
 
-struct process_status
-{
-    char * cmdline_cpy;
-    struct list_elem child;
-    int pid;
-    int exit_code;
-    int waited;
-    struct semaphore shared;
-    struct semaphore exec;
-};
 /* 
 // A kernel thread or user process.
 //

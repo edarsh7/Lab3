@@ -41,7 +41,7 @@ struct process_status
 {
     const char * cmdline_cpy;
     struct list_elem child;
-    pid_t pid;
+    int pid;
     int exit_code;
     int waited;
     struct semaphore shared;

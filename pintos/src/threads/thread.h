@@ -150,17 +150,6 @@ struct thread
     unsigned magic;        // Detects stack overflow. 
   };
 
-struct process_status
-{
-    char * cmdline_cpy;
-    struct list_elem child;
-    int pid;
-    int exit_code;
-    int waited;
-    struct semaphore shared;
-    struct semaphore exec;
-};
-
 
 
 // If false(default), use round-robin scheduler.

@@ -141,7 +141,7 @@ struct thread
                            // i.e the current value of the user program’s stack pointer
     struct dir *cwd;	   // Current Working Directory, if any
 
-    struct semaphore * process_sema;
+
     int fd;
     struct process_status * p_stat;
     struct list children;
@@ -160,7 +160,7 @@ struct process_status
     struct semaphore shared;
     struct semaphore exec;
 
-}process_status;
+};
 
 
 

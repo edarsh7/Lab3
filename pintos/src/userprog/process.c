@@ -223,12 +223,12 @@ start_process(void *cmdline)
     pif.cs = SEL_UCSEG;
     pif.eflags = FLAG_IF | FLAG_MBS;
 
-    struct process_status * temp = cmdline;
+    struct process_status * temp_ps = cmdline;
 
     char *cmdline_copy = palloc_get_page(0);
-    strlcpy(cmdline_copy, temp->cmdline_cpy, PGSIZE);
+    strlcpy(cmdline_copy, temp_ps->cmdline_cpy, PGSIZE);
     char *cmdline_copy2 = palloc_get_page(0);
-    strlcpy(cmdline_copy2, temp->cmdline_cpy, PGSIZE);
+    strlcpy(cmdline_copy2, temp_ps->cmdline_cpy, PGSIZE);
 
     char *save = NULL;
     char * tok = NULL;
@@ -243,8 +243,8 @@ start_process(void *cmdline)
     }
 
     struct thread *temp = thread_current();
-    temp->p_stat = ps;
-    semaphore_up(&temp->exec);
+    temp_ps->p_stat = ps;
+    semaphore_up(&temp_ps->exec);
     palloc_free_page(cmdline_copy);
     palloc_free_page(cmdline_copy2);
 

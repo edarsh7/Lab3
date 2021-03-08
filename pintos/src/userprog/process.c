@@ -178,8 +178,8 @@ process_execute(const char *cmdline)
 
     struct process_status *ps = palloc_get_page(0);
     ps->cmdline_cpy = cmdline_copy;
-    ps->waiting = 0;
-    ps->exitcode = -1;
+    ps->waited = 0;
+    ps->exit_code = -1;
     semaphore_init(&pcb->exec, 0);
     semaphore_init(&pcb->shared, 0);
 

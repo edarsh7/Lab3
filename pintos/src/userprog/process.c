@@ -193,8 +193,11 @@ process_execute(const char *cmdline)
 
     list_push_back(&thread_current()->children, &ps->child);
 
+
    
     semaphore_down(&ps->exec);
+
+    ps->pid = tid;
     palloc_free_page(cmdline_copy);
     palloc_free_page(temp);
 

@@ -90,6 +90,7 @@ syscall_handler(struct intr_frame *f)
     break;
 
   case SYS_CREATE:
+    printf("ok");
     create_handler(f);
     break;
 
@@ -167,8 +168,8 @@ static void create_handler(struct intr_frame *f)
     umem_read(f->esp + 4, &fname, sizeof(fname));
     umem_read(f->esp + 8, &isize, sizeof(isize));
     bool x = sys_create(fname, isize);
-    f->eax = x;
     printf("create return: %d\n", x);
+    f->eax = x;
 }
 
 static int sys_open(char* fname)

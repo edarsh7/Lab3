@@ -297,7 +297,7 @@ process_wait(tid_t child_tid UNUSED)
     
     ps->waited = 1;
 
-    
+    printf("huh");
     semaphore_down(&ps->shared);
 
 

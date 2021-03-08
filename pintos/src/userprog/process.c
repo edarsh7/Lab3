@@ -220,7 +220,9 @@ start_process(void *cmdline)
     strlcpy(cmdline_copy, temp->cmdline_cpy, PGSIZE);
 
     char *save = NULL;
-    strtok_r(cmdline_copy, " ", &save);
+    char * tok = NULL;
+    tok = strtok_r(cmdline_copy, " ", &save);
+
 
     bool success = load(cmdline_copy, &pif.eip, &pif.esp);
 
@@ -276,7 +278,6 @@ process_wait(tid_t child_tid UNUSED)
         return -1;
     
     semaphore_down(&ps->shared);
-
     return -1; 
 
 }

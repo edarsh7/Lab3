@@ -277,17 +277,21 @@ process_wait(tid_t child_tid UNUSED)
     struct process_status *ps = NULL;
     if(!list_empty(&t->children))
     {
+        printf("enter if\n");
         for(e = list_begin(&thread_current()->children);
             e != list_end(&thread_current()->children);
             e = list_next(e))
         {
+            printf("enter for\n");
             ps = list_entry(e, struct process_status, child);
             if(ps->pid == child_tid)
             {
+                printf("exit for\n");
                 break;
             }
         }
     }
+    printf("exit if\n");
     if(e == list_end(&thread_current()->children) || ps->waited == 1 || ps == NULL)
         return -1;
     

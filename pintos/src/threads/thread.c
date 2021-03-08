@@ -133,7 +133,6 @@ thread_init (void)
   list_init (&ready_list);
   list_init (&wait_list);
   list_init (&all_list);
-  list_init(&t->children);
 
   /* Set up a thread structure for the running thread. */
   initial_thread = running_thread ();
@@ -569,6 +568,8 @@ init_thread (struct thread *t, const char *name, int priority)
   t->priority = priority;
   t->sleep_endtick = 0;
   t->magic = THREAD_MAGIC;
+  t->p_stat = NULL;
+  list_init(&t->children);
 
   old_level = intr_disable ();
   list_push_back (&all_list, &t->allelem);

@@ -196,6 +196,7 @@ process_execute(const char *cmdline)
 
    
     
+    printf("tid %d\n", tid);
     ps->pid = tid;
     palloc_free_page(cmdline_copy);
     palloc_free_page(temp);
@@ -275,7 +276,7 @@ start_process(void *cmdline)
 int
 process_wait(tid_t child_tid UNUSED)
 {
-    struct list_elem *e;
+    /* struct list_elem *e;
     struct process_status *ps = NULL;
     for(e = list_begin(&thread_current()->children);
         e != list_end(&thread_current()->children);
@@ -293,7 +294,8 @@ process_wait(tid_t child_tid UNUSED)
 
     
     semaphore_down(&ps->shared);
-    printf(" %d ", ps->exit_code);
+    printf(" %d ", ps->exit_code); */
+    timer_sleep(100);
     
     
     return -1;

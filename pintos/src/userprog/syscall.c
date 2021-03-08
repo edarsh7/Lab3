@@ -111,6 +111,7 @@ syscall_handler(struct intr_frame *f)
 void sys_exit(int status) 
 {
   printf("%s: exit(%d)\n", thread_current()->name, status);
+  thread_current()->p_stat->exit_code = status;
   thread_exit();
 }
 
@@ -118,7 +119,7 @@ static void exit_handler(struct intr_frame *f)
 {
   int exitcode;
   umem_read(f->esp + 4, &exitcode, sizeof(exitcode));
-  thread_current()->p_stat->exit_code = exitcode;
+
   sys_exit(exitcode);
 }
 

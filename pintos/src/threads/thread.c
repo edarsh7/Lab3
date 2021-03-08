@@ -133,6 +133,7 @@ thread_init (void)
   list_init (&ready_list);
   list_init (&wait_list);
   list_init (&all_list);
+  list_init(&t->children);
 
   /* Set up a thread structure for the running thread. */
   initial_thread = running_thread ();
@@ -266,7 +267,7 @@ thread_create (const char *name, int priority,
   sf->ebp = 0;
 
   t->fd = 1;
-  list_init(&t->children);
+  
   
   /* Add to run queue. */
   thread_unblock (t);

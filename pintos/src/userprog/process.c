@@ -196,7 +196,7 @@ process_execute(const char *cmdline)
 
    
     semaphore_down(&ps->exec);
-
+    printf("tid %d\n", tid);
     palloc_free_page(cmdline_copy);
     palloc_free_page(temp);
 

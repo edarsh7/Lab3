@@ -171,6 +171,7 @@ process_execute(const char *cmdline)
     semaphore_init(&p_strct->shared, 0);
     p_strct->exit_code = 0;
     p_strct->waited = 0;
+    list_push_back(&thread_current()->children, p_strct->child);
 
     p_strct->cmdline_cpy = palloc_get_page(0);
     
@@ -189,8 +190,11 @@ process_execute(const char *cmdline)
     if(tid == TID_ERROR)
         return TID_ERROR;
 
-    semaphore_down(&p_strct->exec);
     p_strct->pid = tid;
+   
+   
+    semaphore_down(&p_strct->exec);
+    
 
 
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 

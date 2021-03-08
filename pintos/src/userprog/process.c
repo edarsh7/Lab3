@@ -190,13 +190,13 @@ process_execute(const char *cmdline)
     if(tid == TID_ERROR)
         return TID_ERROR;
 
-
+    semaphore_down(&ps->exec);
     list_push_back(&thread_current()->children, &ps->child);
 
 
    
-    semaphore_down(&ps->exec);
-    printf("tid %d\n", tid);
+    
+    ps->pid = tid;
     palloc_free_page(cmdline_copy);
     palloc_free_page(temp);
 

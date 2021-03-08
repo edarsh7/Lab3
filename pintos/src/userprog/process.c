@@ -62,16 +62,7 @@
 static thread_func start_process NO_RETURN;
 static bool load(const char *cmdline, void (**eip) (void), void **esp);
 
-struct process_status
-{
-    char * cmdline_cpy;
-    struct list_elem child;
-    int pid;
-    int exit_code;
-    int waited;
-    struct semaphore shared;
-    struct semaphore exec;
-};
+
 
 
 
@@ -184,6 +175,7 @@ process_execute(const char *cmdline)
     char *tok = NULL;
     tok = strtok_r(cmdline, " ", &save);
 
+
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, p_strct);
 
@@ -191,6 +183,7 @@ process_execute(const char *cmdline)
         return TID_ERROR;
 
     p_strct->pid = tid;
+    
     list_push_back(&thread_current()->children, &p_strct->child);
    
     semaphore_down(&p_strct->exec);

@@ -297,13 +297,10 @@ process_wait(tid_t child_tid UNUSED)
     
     ps->waited = 1;
 
-    printf("huh");
     semaphore_down(&ps->shared);
-
-
+    int ec = ps->exit_code;
     
-    
-    return -1;
+    return ec;
 }
 
 /* Free the current process's resources. */
@@ -313,6 +310,7 @@ process_exit(void)
 
     struct thread *cur = thread_current();
     uint32_t *pd;
+    semaphore_up(&cur->p_stat->shared);
 
     /* Destroy the current process's page directory and switch back
        to the kernel-only page directory. */

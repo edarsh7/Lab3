@@ -728,6 +728,5 @@ void init_process_status(struct thread * t)
   t->p_stat-> pid = t->tid;
   t->p_stat->exit_code = 0;
   t->p_stat->waited = 0;
-  if(thread_current())
-    list_push_back(&thread_current()->children, &t->p_stat->elem);
+  
 }

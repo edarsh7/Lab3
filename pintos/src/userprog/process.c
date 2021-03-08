@@ -159,6 +159,7 @@ push_command(const char *cmdline UNUSED, void **esp)
 tid_t
 process_execute(const char *cmdline)
 {
+    printf("process_exec\n");
     // Make a copy of CMDLINE to avoid a race condition between the caller and load() 
     struct process_struct p_strct;
     semaphore_init(&p_strct.sema, 0);
@@ -177,6 +178,9 @@ process_execute(const char *cmdline)
     tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, &p_strct);
     semaphore_down(&p_strct.sema);
 
+    if(tid != TID_ERROR)
+
+
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 
     // the child. To get ANY of the tests passing, you need to synchronise the 
     // activity of the parent and child threads.
@@ -192,7 +196,7 @@ process_execute(const char *cmdline)
 static void
 start_process(void *cmdline)
 {
-
+    printf("pr2\n");
     // Initialize interrupt frame and load executable. 
     struct intr_frame pif;
     memset(&pif, 0, sizeof pif);
@@ -249,7 +253,7 @@ start_process(void *cmdline)
 int
 process_wait(tid_t child_tid UNUSED)
 {
-
+    printf("pr3\n");
         timer_sleep(100);
 
     return -1;
@@ -259,6 +263,7 @@ process_wait(tid_t child_tid UNUSED)
 void
 process_exit(void)
 {
+    printf("pr4\n");
     struct thread *cur = thread_current();
     uint32_t *pd;
 

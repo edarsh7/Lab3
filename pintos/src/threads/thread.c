@@ -266,7 +266,6 @@ thread_create (const char *name, int priority,
   sf->ebp = 0;
 
   t->fd = 1;
-  init_process_status(t);
   list_init(&t->children);
   
   /* Add to run queue. */
@@ -416,6 +415,7 @@ thread_yield (void)
   }
   cur->status = THREAD_READY;
   schedule ();
+  printf("current thread %d\n", thread_current()->tid);
   intr_set_level (old_level);
 }
 
@@ -720,13 +720,4 @@ struct thread * return_td_tid(tid_t tid)
     t = NULL;
   }
   return t;
-}
-
-void init_process_status(struct thread * t)
-{
-  t->p_stat = palloc_get_page(0);
-  t->p_stat-> pid = t->tid;
-  t->p_stat->exit_code = 0;
-  t->p_stat->waited = 0;
-  
 }

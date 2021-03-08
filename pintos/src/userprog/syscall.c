@@ -227,6 +227,6 @@ static void read_handler(struct intr_frame *f)
     umem_read(f->esp + 8, &buf, sizeof(buf));
     umem_read(f->esp + 12, &size, sizeof(size));
 
-    int x = sys_read();
+    int x = sys_read(fd, buf, size);
     f->eax =  x;
 }

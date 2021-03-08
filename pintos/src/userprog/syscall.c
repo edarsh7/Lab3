@@ -57,6 +57,7 @@ static void create_handler(struct intr_frame *);
 static void open_handler(struct intr_frame *);
 static void exit_handler(struct intr_frame *);
 static void read_handler(struct intr_frame *);
+static void wait_handler(struct intr_frame *);
 
 void
 syscall_init (void)
@@ -100,6 +101,10 @@ syscall_handler(struct intr_frame *f)
 
   case SYS_READ:
     read_handler(f);
+    break;
+
+  case SYS_WAIT:
+    wait_handler(f);
     break;
 
 
@@ -229,4 +234,19 @@ static void read_handler(struct intr_frame *f)
 
     int x = sys_read(fd, buf, size);
     f->eax =  x;
+}
+
+static int sys_wait(int child_tid)
+{
+  return process_wait(child_tid);
+}
+
+
+static void wait_handler(struct intr_frame *f)
+{
+    int child_tid;
+
+    umem_read(f->esp + 4, &child_tid, sizeof(child_tid));
+    
+    f->eax =  (uint32_t)sys_wait(child_tid);
 }

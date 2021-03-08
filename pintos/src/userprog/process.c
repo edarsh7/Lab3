@@ -264,6 +264,7 @@ void
 process_exit(void)
 {
     printf("pr4\n");
+    
     struct thread *cur = thread_current();
     uint32_t *pd;
 

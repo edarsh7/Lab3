@@ -68,7 +68,7 @@ struct process_struct
     struct semaphore sema;
 }process_struct;
 
-struct process_status
+typedef struct process_status
 {
     struct list_elem elem;
     int pid;

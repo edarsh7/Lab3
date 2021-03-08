@@ -220,8 +220,7 @@ start_process(void *cmdline)
     strlcpy(cmdline_copy, temp->cmdline_cpy, PGSIZE);
 
     char *save = NULL;
-    char * tok = NULL;
-    tok = strtok_r(cmdline_copy, " ", &save);
+    strtok_r(cmdline_copy, " ", &save);
 
 
     bool success = load(cmdline_copy, &pif.eip, &pif.esp);

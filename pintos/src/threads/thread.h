@@ -150,7 +150,7 @@ struct thread
     unsigned magic;        // Detects stack overflow. 
   };
 
-  typedef struct process_status
+struct process_status
 {
     struct list_elem elem;
     int pid;

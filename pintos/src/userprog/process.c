@@ -277,9 +277,9 @@ process_wait(tid_t child_tid UNUSED)
     if(e == list_end(&thread_current()->children) || ps->waited == 1)
         return -1;
     
-    printf("td 1: %d",child_tid);
+
     semaphore_down(&ps->shared);
-    printf("exitcode argsnone--> %d\n",ps->exit_code);
+
     return ps->exit_code; 
 
 }

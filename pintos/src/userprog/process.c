@@ -239,8 +239,8 @@ printf("2 xxx");
     // the form of a `struct intr_frame',  we just point the stack 
     // pointer (%esp) to our stack frame and jump to it.
     asm volatile ("movl %0, %%esp; jmp intr_exit" : : "g" (&pif) : "memory");
-    NOT_REACHED();
     printf("3 xxx");
+    NOT_REACHED();
 }
 
 

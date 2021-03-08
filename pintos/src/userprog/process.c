@@ -280,7 +280,7 @@ process_wait(tid_t child_tid UNUSED)
 
     semaphore_down(&ps->shared);
 
-    return ps->exit_code; 
+    return ps->exit_code;
 
 }
 

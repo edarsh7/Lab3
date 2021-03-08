@@ -45,7 +45,6 @@
 #include "threads/malloc.h"
 #include "threads/interrupt.h"
 #include "threads/thread.h"
-#include "threads/semaphore.h"
 #include "threads/vaddr.h"
 #include "userprog/syscall.h"
 #include "userprog/process.h"
@@ -91,7 +90,6 @@ syscall_handler(struct intr_frame *f)
     break;
 
   case SYS_CREATE:
-    printf("ok");
     create_handler(f);
     break;
 
@@ -121,7 +119,7 @@ static void exit_handler(struct intr_frame *f)
   int exitcode;
   umem_read(f->esp + 4, &exitcode, sizeof(exitcode));
   thread_current()->p_stat->exit_code = exitcode;
-  sema_up(&thread_current()->p_stat->shared);
+  semaphore_up(&thread_current()->p_stat->shared);
 
   sys_exit(exitcode);
 }

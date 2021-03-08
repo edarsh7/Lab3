@@ -177,7 +177,7 @@ process_execute(const char *cmdline)
 
 
     // Create a Kernel Thread for the new process
-    tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, p_strct);
+    tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, &p_strct);
 
     if(tid == TID_ERROR)
         return TID_ERROR;

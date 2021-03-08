@@ -173,8 +173,8 @@ process_execute(const char *cmdline)
     char *tok = NULL;
     tok = strtok_r(cmdline, " ", &save);
 
-    struct process_status *ps = palloc_get_page(0);
-    //list_push_back(&thread_current()->children, &ps->elem);
+    struct process_status *ps;
+    list_push_back(&thread_current()->children, &ps->elem);
 
 
     // Create a Kernel Thread for the new process

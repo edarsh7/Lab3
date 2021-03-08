@@ -164,7 +164,7 @@ process_execute(const char *cmdline)
     p_strct.waited = 0;
     thread_current()->p_stat = &p_strct;
 
-    p_strct->cmdline_cpy = palloc_get_page(0);
+    p_strct.cmdline_cpy = palloc_get_page(0);
     
     if (p_strct.cmdline_cpy == NULL)
         return TID_ERROR;

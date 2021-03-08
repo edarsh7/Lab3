@@ -725,7 +725,7 @@ struct thread * return_td_tid(tid_t tid)
 void init_process_status(struct thread * t)
 {
   t->p_stat = palloc_get_page(0);
-  t->p_stat->pid = t->tid;
+  t->p_stat-> pid = t->tid;
   t->p_stat->exit_code = 0;
   t->p_stat->waited = 0;
   if(thread_current())

@@ -97,6 +97,10 @@ syscall_handler(struct intr_frame *f)
     open_handler(f);
     break;
 
+  case sys_write:
+    write_handler(f);
+    break;
+
 
 
   default:
@@ -196,3 +200,32 @@ static void open_handler(struct intr_frame *f)
     f->eax =  x;
 }
 
+static int sys_read(int fd, const void *buffer, unsigned size)
+{
+  umem_check((const uint8_t*) buffer);
+  umem_check((const uint8_t*) buffer + size - 1);
+
+  int ret = -1;
+
+  if (fd == 1) { // write to stdout
+    putbuf(buffer, size);
+    ret = size;
+  }
+
+  return (uint32_t) ret;
+}
+
+
+static void read_handler(struct intr_frame *f)
+{
+    int fd;
+    const void *buf;
+    unsigned size;
+
+    umem_read(f->esp + 4, &fd, sizeof(fd));
+    umem_read(f->esp + 8, &buf, sizeof(buf));
+    umem_read(f->esp + 12, &size, sizeof(size));
+
+    int x = sys_read();
+    f->eax =  x;
+}

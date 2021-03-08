@@ -62,11 +62,17 @@
 static thread_func start_process NO_RETURN;
 static bool load(const char *cmdline, void (**eip) (void), void **esp);
 
-/* struct process_struct
+struct process_status
 {
     char * cmdline_cpy;
-    struct semaphore sema;
-}process_struct; */
+    struct list_elem child;
+    int pid;
+    int exit_code;
+    int waited;
+    struct semaphore shared;
+    struct semaphore exec;
+};
+
 
 
 /*

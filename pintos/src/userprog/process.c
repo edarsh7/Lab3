@@ -190,11 +190,13 @@ process_execute(const char *cmdline)
     if(tid == TID_ERROR)
         return TID_ERROR;
 
+    ps->pid = tid;
     list_push_back(&thread_current()->children, &ps->child);
 
    
     semaphore_down(&ps->exec);
-    
+    palloc_free_page(cmdline_copy);
+    palloc_free_page(temp);
 
 
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 
@@ -240,7 +242,11 @@ start_process(void *cmdline)
         push_command(cmdline_copy2, &pif.esp);
     }
 
-   semaphore_up(&temp->exec);
+    struct thread *temp = thread_current();
+    temp->p_stat = ps;
+    semaphore_up(&temp->exec);
+    palloc_free_page(cmdline_copy);
+    palloc_free_page(cmdline_copy2);
 
     if (!success) {
         thread_exit();

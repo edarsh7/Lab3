@@ -171,7 +171,7 @@ process_execute(const char *cmdline)
     semaphore_init(&p_strct->shared, 0);
     p_strct->exit_code = 0;
     p_strct->waited = 0;
-    list_push_back(&thread_current()->children, p_strct->child);
+    list_push_back(&thread_current()->children, &p_strct->child);
 
     p_strct->cmdline_cpy = palloc_get_page(0);
     

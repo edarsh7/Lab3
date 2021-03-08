@@ -197,7 +197,7 @@ process_execute(const char *cmdline)
    
     semaphore_down(&ps->exec);
 
-    ps->pid = tid;
+    //ps->pid = tid;
     palloc_free_page(cmdline_copy);
     palloc_free_page(temp);
 

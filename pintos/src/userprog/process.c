@@ -161,7 +161,7 @@ process_execute(const char *cmdline)
     semaphore_init(&p_strct.exec, 0);
     semaphore_init(&p_strct.shared, 0);
     p_strct.exit_code = 0;
-    p_strct.waited = 0;
+    p_strct.waited = 10;
     thread_current()->p_stat = &p_strct;
 
     p_strct.cmdline_cpy = palloc_get_page(0);

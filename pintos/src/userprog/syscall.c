@@ -178,7 +178,7 @@ static int sys_open(char* fname)
   if(!opened)
     return -1;
 
-  return thread_current()->fd;
+  return ++thread_current()->fd;
 }
 
 

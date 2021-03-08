@@ -278,7 +278,7 @@ process_wait(tid_t child_tid UNUSED)
         return -1;
     
     semaphore_down(&ps->shared);
-    return ps->exitcode; 
+    return ps->exit_code; 
 
 }
 

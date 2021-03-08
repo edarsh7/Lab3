@@ -111,6 +111,7 @@ syscall_handler(struct intr_frame *f)
 void sys_exit(int status) 
 {
   printf("%s: exit(%d)\n", thread_current()->name, status);
+  printf("td 2: %d", thread_current()->tid);
   thread_current()->p_stat->exit_code = status;
   semaphore_up(&thread_current()->p_stat->shared);
   thread_exit();

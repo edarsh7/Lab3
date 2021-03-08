@@ -240,6 +240,7 @@ printf("2 xxx");
     // pointer (%esp) to our stack frame and jump to it.
     asm volatile ("movl %0, %%esp; jmp intr_exit" : : "g" (&pif) : "memory");
     NOT_REACHED();
+    printf("3 xxx");
 }
 
 

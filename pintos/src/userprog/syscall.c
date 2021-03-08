@@ -103,11 +103,6 @@ syscall_handler(struct intr_frame *f)
     read_handler(f);
     break;
 
-  case SYS_WAIT:
-    wait_handler(f);
-    break;
-
-
 
   default:
     printf("[ERROR] system call %d is unimplemented!\n", syscall);
@@ -236,17 +231,3 @@ static void read_handler(struct intr_frame *f)
     f->eax =  x;
 }
 
-static int sys_wait(int child_tid)
-{
-  return process_wait(child_tid);
-}
-
-
-static void wait_handler(struct intr_frame *f)
-{
-    int child_tid;
-
-    umem_read(f->esp + 4, &child_tid, sizeof(child_tid));
-    
-    f->eax =  (uint32_t)sys_wait(child_tid);
-}

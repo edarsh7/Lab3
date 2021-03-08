@@ -112,8 +112,6 @@ void sys_exit(int status)
 {
   printf("%s: exit(%d)\n", thread_current()->name, status);
 
-  thread_current()->p_stat->exit_code = status;
-  semaphore_up(&thread_current()->p_stat->shared);
   thread_exit();
 }
 

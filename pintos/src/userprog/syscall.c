@@ -166,8 +166,9 @@ static void create_handler(struct intr_frame *f)
     int isize;
     umem_read(f->esp + 4, &fname, sizeof(fname));
     umem_read(f->esp + 8, &isize, sizeof(isize));
-
-    f->eax = sys_create(fname, isize);
+    bool x = sys_create(fname, isize);
+    f->eax = x;
+    printf("create return: %d\n", x);
 }
 
 static int sys_open(char* fname)

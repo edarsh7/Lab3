@@ -237,7 +237,7 @@ start_process(void *cmdline)
     if (!success) {
         thread_exit();
     }
-    printf("fuck");
+
     semaphore_up(&temp->exec);
 
     

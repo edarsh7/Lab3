@@ -68,15 +68,6 @@ struct process_struct
     struct semaphore sema;
 }process_struct;
 
-typedef struct process_status
-{
-    struct list_elem elem;
-    int pid;
-    int exit_code;
-    int waited;
-    struct semaphore shared;
-
-}process_status;
 
 /*
  * Push the command and arguments found in CMDLINE onto the stack, world 

@@ -120,6 +120,10 @@ static void exit_handler(struct intr_frame *f)
   int exitcode;
   umem_read(f->esp + 4, &exitcode, sizeof(exitcode));
 
+  struct process_status *ps = thread_current->p_stat;
+  if(ps != NULL)
+    ps->exit_code = 10;
+
   sys_exit(exitcode);
 }
 

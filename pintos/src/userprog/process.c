@@ -254,21 +254,8 @@ start_process(void *cmdline)
 int
 process_wait(tid_t child_tid UNUSED)
 {
-    struct list_elem *e;
-    struct process_status *ps = NULL;
-    for(e = list_begin(&thread_current()->children);
-        e != list_end(&thread_current()->children);
-        e = list_next(e))
-    {
-        ps = list_entry(e, struct process_status, child);
-        if(ps->pid == child_tid)
-            break;
-    }
-    if(e = list_end(&thread_current()->children) || ps->waited == 1)
-        return -1;
-
-        
-    return ps->exit_code;
+    timer_sleep(100);
+    return -1;
 }
 
 /* Free the current process's resources. */

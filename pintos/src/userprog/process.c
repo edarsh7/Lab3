@@ -174,7 +174,7 @@ process_execute(const char *cmdline)
     tok = strtok_r(cmdline, " ", &save);
 
     struct process_status *ps;
-    list_push_back(&thread_current()->children, &ps->elem);
+    list_push_back(&thread_current()->children, &ps->child);
 
 
     // Create a Kernel Thread for the new process

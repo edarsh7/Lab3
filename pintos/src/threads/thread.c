@@ -415,7 +415,6 @@ thread_yield (void)
   }
   cur->status = THREAD_READY;
   schedule ();
-  printf("current thread %d\n", thread_current()->tid);
   intr_set_level (old_level);
 }
 

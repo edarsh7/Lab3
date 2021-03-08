@@ -263,8 +263,8 @@ process_wait(tid_t child_tid UNUSED)
 void
 process_exit(void)
 {
-    printf("pr4\n");
-    
+    printf("pr4 %d \n", thread_current()->tid);
+
     struct thread *cur = thread_current();
     uint32_t *pd;
 

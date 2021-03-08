@@ -273,10 +273,10 @@ process_wait(tid_t child_tid UNUSED)
             break;
         }
     }
-    if(e == list_end(&thread_current()->children) || ps->waited = 1)
+    if(e == list_end(&thread_current()->children) || ps->waited == 1)
         return -1;
     
-    semaphore_down(&ps->shared)
+    semaphore_down(&ps->shared);
     return -1;
 }
 

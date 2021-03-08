@@ -223,10 +223,10 @@ start_process(void *cmdline)
         push_command(temp->cmdline_cpy, &pif.esp);
     }
 
-
     if (!success) {
         thread_exit();
     }
+    printf("fuck");
     semaphore_up(&temp->sema);
 
     

@@ -233,6 +233,7 @@ start_process(void *cmdline)
    semaphore_up(&temp->exec);
 
     if (!success) {
+        printf("shit");
         thread_exit();
     }
 

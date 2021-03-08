@@ -97,8 +97,8 @@ syscall_handler(struct intr_frame *f)
     open_handler(f);
     break;
 
-  case sys_write:
-    write_handler(f);
+  case SYS_READ:
+    read_handler(f);
     break;
 
 

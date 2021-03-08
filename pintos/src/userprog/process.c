@@ -221,7 +221,7 @@ start_process(void *cmdline)
 
     char *save = NULL;
     strtok_r(cmdline_copy, " ", &save);
-
+    printf("cmdline_copy: %s", cmdline_copy);
 
     bool success = load(cmdline_copy, &pif.eip, &pif.esp);
 
@@ -233,7 +233,6 @@ start_process(void *cmdline)
    semaphore_up(&temp->exec);
 
     if (!success) {
-        printf("shit");
         thread_exit();
     }
 

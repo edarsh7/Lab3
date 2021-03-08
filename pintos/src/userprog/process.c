@@ -243,7 +243,7 @@ start_process(void *cmdline)
     }
 
     struct thread *temp = thread_current();
-    temp_ps->p_stat = ps;
+    temp->p_stat = temp_ps;
     semaphore_up(&temp_ps->exec);
     palloc_free_page(cmdline_copy);
     palloc_free_page(cmdline_copy2);

@@ -267,7 +267,7 @@ process_wait(tid_t child_tid UNUSED)
         e != list_end(&thread_current()->children);
         e = list_next(e))
     {
-        ps = list_entry(e, struct process_status, elem);
+        ps = list_entry(e, struct process_status, child);
         if(ps->pid == child_tid)
             break;
     }

@@ -152,7 +152,7 @@ struct thread
 
 struct process_status
 {
-    struct list_elem elem;
+    struct list_elem child;
     int pid;
     int exit_code;
     int waited;

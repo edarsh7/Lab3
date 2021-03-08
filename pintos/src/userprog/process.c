@@ -174,12 +174,12 @@ process_execute(const char *cmdline)
     tok = strtok_r(cmdline, " ", &save);
 
     struct process_status *ps = palloc_get_page(0);
-    list_push_back(&thread_current()->children, ps->elem);
+    list_push_back(&thread_current()->children, &ps->elem);
 
 
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, &p_strct);
-    
+
     ps->pid = tid;
     ps->exit_code = 0;
     ps->waited = 0;
@@ -263,8 +263,8 @@ process_wait(tid_t child_tid UNUSED)
 {
     struct list_elem *e;
     struct process_status *ps = NULL;
-    for(e = list_begin(&thread_current()->children),
-        e != list_end(&thread_current()->children),
+    for(e = list_begin(&thread_current()->children);
+        e != list_end(&thread_current()->children);
         e = list_next(e))
     {
         ps = list_entry(e, struct process_status, elem);

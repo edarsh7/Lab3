@@ -68,6 +68,16 @@ struct process_struct
     struct semaphore sema;
 }process_struct;
 
+struct process_status
+{
+    struct list_elem elem;
+    int pid;
+    int exit_code;
+    int waited;
+    struct semaphore shared;
+
+}process_status;
+
 /*
  * Push the command and arguments found in CMDLINE onto the stack, world 
  * aligned with the stack pointer ESP. Should only be called after the ELF 
@@ -249,7 +259,8 @@ start_process(void *cmdline)
 int
 process_wait(tid_t child_tid UNUSED)
 {
-    timer_sleep(100);
+
+
     return -1;
 }
 

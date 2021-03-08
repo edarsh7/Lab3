@@ -266,10 +266,8 @@ thread_create (const char *name, int priority,
   sf->ebp = 0;
 
   t->fd = 1;
-  if(thread_current() != NULL)
-  {
-    init_child_info(t, thread_current());
-  }
+  init_process_status(t);
+  list_init(&t->children);
   
   /* Add to run queue. */
   thread_unblock (t);
@@ -724,10 +722,12 @@ struct thread * return_td_tid(tid_t tid)
   return t;
 }
 
-void init_child_info(struct thread *c, struct thread *p)
+void init_process_status(struct thread * t)
 {
-  p->cd_info = palloc_get_page(0);
-  p->cd_info->tid = c->tid;
-  p->cd_info->completed_wait = 0;
-  p->cd_info->exit_status = 0;
+  t->p_stat = palloc_get_page(0);
+  t->p_stat->pid = t->tid;
+  t->p_stat->exit_code = 0;
+  t->p_stat->waited = 0;
+  if(thread_current())
+    list_push_back(&thread_current()->children, &t->p_stat->elem);
 }

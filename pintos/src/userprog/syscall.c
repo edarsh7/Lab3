@@ -45,6 +45,7 @@
 #include "threads/malloc.h"
 #include "threads/interrupt.h"
 #include "threads/thread.h"
+#include "threads/semaphore.h"
 #include "threads/vaddr.h"
 #include "userprog/syscall.h"
 #include "userprog/process.h"

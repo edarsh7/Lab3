@@ -156,7 +156,7 @@ struct thread
     int pid;
     int exit_code;
     int waited;
-    struct semaphore shared;
+    struct semaphore *shared;
 
 }process_status;
 

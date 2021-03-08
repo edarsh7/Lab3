@@ -175,7 +175,7 @@ process_execute(const char *cmdline)
 
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, &p_strct);
-    
+     printf("no");
     semaphore_down(&p_strct.sema);
     
 
@@ -194,6 +194,7 @@ process_execute(const char *cmdline)
 static void
 start_process(void *cmdline)
 {
+    printf("yues");
     // Initialize interrupt frame and load executable. 
     struct intr_frame pif;
     memset(&pif, 0, sizeof pif);
@@ -250,7 +251,7 @@ start_process(void *cmdline)
 int
 process_wait(tid_t child_tid UNUSED)
 {
-
+    timer_sleep(100);
 
     return -1;
 }

@@ -231,11 +231,12 @@ start_process(void *cmdline)
         push_command(temp->cmdline_cpy, &pif.esp);
     }
 
+   semaphore_up(&temp->exec);
+
     if (!success) {
         thread_exit();
     }
 
-    semaphore_up(&temp->exec);
 
     
 

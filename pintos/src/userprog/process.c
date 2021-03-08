@@ -166,7 +166,7 @@ tid_t
 process_execute(const char *cmdline)
 {
     // Make a copy of CMDLINE to avoid a race condition between the caller and load() 
-    struct process_status p_strct = palloc_get_page(0);
+    struct process_status *p_strct = palloc_get_page(0);
     semaphore_init(p_strct->exec, 0);
     semaphore_init(p_strct->shared, 0);
     p_strct->exit_code = 0;

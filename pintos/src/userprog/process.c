@@ -223,13 +223,12 @@ start_process(void *cmdline)
     if (success) {
         push_command(temp->cmdline_cpy, &pif.esp);
     }
-printf("2 xxx");
-    semaphore_up(&temp->sema);
+
 
     if (!success) {
         thread_exit();
     }
-
+    semaphore_up(&temp->sema);
 
     
 
@@ -239,7 +238,6 @@ printf("2 xxx");
     // the form of a `struct intr_frame',  we just point the stack 
     // pointer (%esp) to our stack frame and jump to it.
     asm volatile ("movl %0, %%esp; jmp intr_exit" : : "g" (&pif) : "memory");
-    printf("3 xxx");
     NOT_REACHED();
 }
 

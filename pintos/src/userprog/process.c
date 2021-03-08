@@ -195,10 +195,8 @@ process_execute(const char *cmdline)
 
 
    
-    //semaphore_down(&ps->exec);
-    timer_sleep(100);
-    if(tid != TID_ERROR)
-        ps->pid = tid;
+    semaphore_down(&ps->exec);
+
     palloc_free_page(cmdline_copy);
     palloc_free_page(temp);
 

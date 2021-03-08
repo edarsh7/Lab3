@@ -250,8 +250,9 @@ start_process(void *cmdline)
 int
 process_wait(tid_t child_tid UNUSED)
 {
-    timer_sleep(100);
-
+    printf("what");
+        timer_sleep(100);
+printf("whent");
     return -1;
 }
 

@@ -175,9 +175,10 @@ static int sys_open(char* fname)
   struct file * opened;
   
   opened = filesys_open(fname);
-  
+  if(!opened)
+    return -1;
 
-  return ++thread_current()->fd;
+  return thread_current()->fd;
 }
 
 

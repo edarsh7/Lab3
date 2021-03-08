@@ -218,11 +218,12 @@ start_process(void *cmdline)
 
     bool success = load(cmdline_copy, &pif.eip, &pif.esp);
 
+    printf("1 xxx");
     palloc_free_page(cmdline_copy);
     if (success) {
         push_command(temp->cmdline_cpy, &pif.esp);
     }
-
+printf("2 xxx");
     semaphore_up(&temp->sema);
 
     if (!success) {

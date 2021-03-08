@@ -193,7 +193,7 @@ process_execute(const char *cmdline)
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 
     // the child. To get ANY of the tests passing, you need to synchronise the 
     // activity of the parent and child threads.
-    printf("tid: %d", tid);
+
     return tid;
 }
 

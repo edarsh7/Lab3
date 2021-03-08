@@ -191,12 +191,8 @@ process_execute(const char *cmdline)
         return TID_ERROR;
 
     semaphore_down(&ps->exec);
+
     list_push_back(&thread_current()->children, &ps->child);
-
-
-   
-    
-    printf("tid %d\n", tid);
     ps->pid = tid;
     palloc_free_page(cmdline_copy);
     palloc_free_page(temp);
@@ -245,7 +241,9 @@ start_process(void *cmdline)
         push_command(cmdline_copy2, &pif.esp);
     }
 
-   semaphore_up(&temp->exec);
+    struct thread *t = thread_current();
+    t->p_stat = temp;
+    semaphore_up(&temp->exec);
 
     if (!success) {
         thread_exit();

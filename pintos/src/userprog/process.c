@@ -221,8 +221,6 @@ start_process(void *cmdline)
 
     char *save = NULL;
     strtok_r(cmdline_copy, " ", &save);
-    printf("cmdline_copy: %s", cmdline_copy);
-    printf("wtf");
 
     bool success = load(cmdline_copy, &pif.eip, &pif.esp);
 

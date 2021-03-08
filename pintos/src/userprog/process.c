@@ -191,7 +191,7 @@ process_execute(const char *cmdline)
         return TID_ERROR;
 
 
-    //list_push_back(&thread_current()->children, &ps->child);
+    list_push_back(&thread_current()->children, &ps->child);
 
    
     semaphore_down(&ps->exec);

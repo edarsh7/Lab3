@@ -161,17 +161,17 @@ process_execute(const char *cmdline)
 {
     // Make a copy of CMDLINE to avoid a race condition between the caller and load() 
     struct process_status *p_strct = palloc_get_page(0);
-    semaphore_init(&p_strct->exec, 0);
-    semaphore_init(&p_strct->shared, 0);
+    semaphore_init(p_strct->exec, 0);
+    semaphore_init(p_strct->shared, 0);
     p_strct->exit_code = 0;
     p_strct->waited = 0;
 
     p_strct->cmdline_cpy = palloc_get_page(0);
     
-    if (p_strct.cmdline_cpy == NULL)
+    if (p_strct->cmdline_cpy == NULL)
         return TID_ERROR;
 
-    strlcpy(p_strct.cmdline_cpy, cmdline, PGSIZE);
+    strlcpy(p_strct->cmdline_cpy, cmdline, PGSIZE);
 
     char *save = NULL;
     char *tok = NULL;
@@ -183,7 +183,7 @@ process_execute(const char *cmdline)
     if(tid == TID_ERROR)
         return TID_ERROR;
 
-    semaphore_down(&p_strct->exec);
+    semaphore_down(p_strct->exec);
     p_strct->pid = tid;
 
 
@@ -232,7 +232,7 @@ start_process(void *cmdline)
         thread_exit();
     }
     printf("fuck");
-    semaphore_up(&temp->sema);
+    semaphore_up(temp->exec);
 
     
 

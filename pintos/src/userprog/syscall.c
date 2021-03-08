@@ -118,7 +118,7 @@ static void exit_handler(struct intr_frame *f)
 {
   int exitcode;
   umem_read(f->esp + 4, &exitcode, sizeof(exitcode));
-
+  thread_current()->p_stat->exit_code = exitcode;
   sys_exit(exitcode);
 }
 

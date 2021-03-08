@@ -240,7 +240,7 @@ start_process(void *cmdline)
     if (success) {
         push_command(cmdline_copy2, &pif.esp);
     }
-
+    palloc_free_page(cmdline_copy2);
     struct thread *t = thread_current();
     t->p_stat = temp;
     semaphore_up(&temp->exec);

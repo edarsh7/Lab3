@@ -180,8 +180,8 @@ process_execute(const char *cmdline)
     ps->cmdline_cpy = cmdline_copy;
     ps->waited = 0;
     ps->exit_code = -1;
-    semaphore_init(&pcb->exec, 0);
-    semaphore_init(&pcb->shared, 0);
+    semaphore_init(&ps->exec, 0);
+    semaphore_init(&ps->shared, 0);
 
 
     // Create a Kernel Thread for the new process

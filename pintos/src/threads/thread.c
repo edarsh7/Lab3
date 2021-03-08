@@ -707,18 +707,3 @@ uint32_t thread_stack_ofs = offsetof (struct thread, stack);
 /* -0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0- */
 
 
-struct thread * return_td_tid(tid_t tid)
-{
-  struct list_elem *e;
-  struct thread *t = NULL;
-  for(e = list_begin(&all_list); e != list_end(&all_list); e = list_next(e))
-  {
-    t = list_entry(e, struct thread, allelem);
-    if(t->tid == tid)
-    {
-      break;
-    }
-    t = NULL;
-  }
-  return t;
-}

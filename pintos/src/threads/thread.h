@@ -204,6 +204,6 @@ int thread_get_recent_cpu(void);
 int thread_get_load_avg(void);
 
 struct thread * return_td_tid(tid_t tid);
-void init_process_status(struct thread *);
+
 
 #endif // threads/thread.h 

@@ -157,9 +157,8 @@ struct process_status
     int pid;
     int exit_code;
     int waited;
-    struct semaphore *shared;
-    struct semaphore *exec;
-
+    struct semaphore shared;
+    struct semaphore exec;
 };
 
 

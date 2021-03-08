@@ -150,6 +150,17 @@ struct thread
     unsigned magic;        // Detects stack overflow. 
   };
 
+  typedef struct process_status
+{
+    struct list_elem elem;
+    int pid;
+    int exit_code;
+    int waited;
+    struct semaphore shared;
+
+}process_status;
+
+
 
 // If false(default), use round-robin scheduler.
 // If true, use multi-level feedback queue scheduler.

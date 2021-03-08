@@ -117,12 +117,7 @@ void sys_exit(int status)
 static void exit_handler(struct intr_frame *f) 
 {
   int exitcode;
-  printf("huhhhh");
   umem_read(f->esp + 4, &exitcode, sizeof(exitcode));
-  printf("huhhhh");
-  thread_current()->p_stat->exit_code = exitcode;
-  printf("real exit return: %d", exitcode);
-  
 
   sys_exit(exitcode);
 }

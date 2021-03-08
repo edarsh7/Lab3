@@ -157,36 +157,43 @@ tid_t
 process_execute(const char *cmdline)
 {
     // Make a copy of CMDLINE to avoid a race condition between the caller and load() 
-    struct process_status p_strct;
-    semaphore_init(&p_strct.exec, 0);
-    semaphore_init(&p_strct.shared, 0);
-    p_strct.exit_code = 0;
-    p_strct.waited = 0;
-    thread_current()->p_stat = &p_strct;
-
-    p_strct.cmdline_cpy = palloc_get_page(0);
-    
-    if (p_strct.cmdline_cpy == NULL)
+    char *cmdline_copy = palloc_get_page(0);
+    if (cmdline_copy == NULL)
         return TID_ERROR;
+    
+    strlcpy(cmdline_copy, cmdline, PGSIZE);
 
-    strlcpy(p_strct.cmdline_cpy, cmdline, PGSIZE);
+    char *temp = palloc_get_page(0);
+    if (temp == NULL)
+        return TID_ERROR;
+    
+    strlcpy(temp, cmdline, PGSIZE);
+
 
     char *save = NULL;
     char *tok = NULL;
-    tok = strtok_r(cmdline, " ", &save);
+    tok = strtok_r(temp, " ", &save);
+
+
+
+    struct process_status *ps = palloc_get_page(0);
+    ps->cmdline_cpy = cmdline_copy;
+    ps->waiting = 0;
+    ps->exitcode = -1;
+    semaphore_init(&pcb->exec, 0);
+    semaphore_init(&pcb->shared, 0);
 
 
     // Create a Kernel Thread for the new process
-    tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, &p_strct);
+    tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, ps);
 
     if(tid == TID_ERROR)
         return TID_ERROR;
 
-    p_strct.pid = tid;
-    list_push_back(&thread_current()->children, &p_strct.child);
+    list_push_back(&thread_current()->children, &p_strct->child);
 
    
-    semaphore_down(&p_strct.exec);
+    semaphore_down(&ps->exec);
     
 
 
@@ -218,6 +225,8 @@ start_process(void *cmdline)
 
     char *cmdline_copy = palloc_get_page(0);
     strlcpy(cmdline_copy, temp->cmdline_cpy, PGSIZE);
+    char *cmdline_copy2 = palloc_get_page(0);
+    strlcpy(cmdline_copy2, temp->cmdline_cpy, PGSIZE);
 
     char *save = NULL;
     char * tok = NULL;
@@ -228,7 +237,7 @@ start_process(void *cmdline)
 
     palloc_free_page(cmdline_copy);
     if (success) {
-        push_command(temp->cmdline_cpy, &pif.esp);
+        push_command(cmdline_copy2, &pif.esp);
     }
 
    semaphore_up(&temp->exec);

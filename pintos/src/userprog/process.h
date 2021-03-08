@@ -35,7 +35,7 @@
 #define USERPROG_PROCESS_H
 
 #include "threads/thread.h"
-#include "thread/synch.h"
+#include "thread/semaphore.h"
 
 struct process_status
 {

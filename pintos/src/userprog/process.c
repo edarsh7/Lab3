@@ -159,7 +159,6 @@ push_command(const char *cmdline UNUSED, void **esp)
 tid_t
 process_execute(const char *cmdline)
 {
-    printf("process_exec\n");
     // Make a copy of CMDLINE to avoid a race condition between the caller and load() 
     struct process_struct p_strct;
     semaphore_init(&p_strct.sema, 0);
@@ -174,9 +173,18 @@ process_execute(const char *cmdline)
     char *tok = NULL;
     tok = strtok_r(cmdline, " ", &save);
 
+    struct process_status *ps = palloc_get_page(0);
+    list_push_back(&thread_current()->children, ps->elem);
+
+
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, &p_strct);
+    
+    ps->pid = tid;
+    ps->exit_code = 0;
+    ps->waited = 0;
     semaphore_down(&p_strct.sema);
+
 
     if(tid != TID_ERROR)
 
@@ -253,15 +261,27 @@ start_process(void *cmdline)
 int
 process_wait(tid_t child_tid UNUSED)
 {
+    struct list_elem *e;
+    struct process_status *ps = NULL;
+    for(e = list_begin(&thread_current()->children),
+        e != list_end(&thread_current()->children),
+        e = list_next(e))
+    {
+        ps = list_entry(e, struct process_status, elem);
+        if(ps->pid == child_tid)
+            break;
+    }
+    if(e = list_end(&thread_current()->children) || ps->waited == 1)
+        return -1;
 
-    return -1;
+        
+    return ps->exit_code;
 }
 
 /* Free the current process's resources. */
 void
 process_exit(void)
 {
-    printf("pr4 %d \n", thread_current()->tid);
 
     struct thread *cur = thread_current();
     uint32_t *pd;

@@ -36,6 +36,7 @@
 #include <debug.h>
 #include <list.h>
 #include <stdint.h>
+#include <semaphore.h>
 
 #ifdef VM
 #include "vm/page.h"

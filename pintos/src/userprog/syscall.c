@@ -59,8 +59,9 @@ static void exit_handler(struct intr_frame *);
 static void read_handler(struct intr_frame *);
 static void filesize_handler(struct intr_frame *);
 static void close_handler(struct intr_frame *);
-
 static void exec_handler(struct intr_frame *);
+static void wait_handler(struct intr_frame *);
+
 
 
 void
@@ -117,6 +118,10 @@ syscall_handler(struct intr_frame *f)
   
   case SYS_EXEC:
     exec_handler(f);
+    break;
+
+  case SYS_WAIT:
+    wait_handler(f);
     break;
 
 
@@ -373,5 +378,18 @@ static void exec_handler(struct intr_frame *f)
   const char * cmdline;
   umem_read(f->esp + 4, &cmdline, sizeof(cmdline));
   tid_t ret = sys_exec(cmdline);
+  f->eax = ret;
+}
+
+static int sys_wait(tid_t child_tid)
+{
+  return process_wait(child_tid);
+}
+
+static void wait_handler(struct intr_frame *f)
+{
+  tid_t * child_tid;
+  umem_read(f->esp + 4, &child_tid, sizeof(child_tid));
+  int ret = sys_wait(child_tid);
   f->eax = ret;
 }

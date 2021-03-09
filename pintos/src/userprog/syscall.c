@@ -184,9 +184,12 @@ static int sys_open(char* fname)
 {
   umem_check((const uint8_t*) fname);
   struct file * opened = filesys_open(fname);
-  printf("Huh");
+
   if(!opened)
+  {
+    printf("huh");
     return -1;
+  }
 
   struct file_entry * cur = palloc_get_page(0);
   cur->file = opened;

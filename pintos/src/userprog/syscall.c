@@ -329,7 +329,7 @@ static void sys_close(int fd)
     return -1;
 
   file_close(temp->file);
-  palloc_free_page(temp)
+  palloc_free_page(temp);
 
 }
 

@@ -37,16 +37,6 @@
 #include "threads/thread.h"
 #include "threads/semaphore.h"
 
-struct process_status
-{
-    const char * cmdline_cpy;
-    struct list_elem child;
-    tid_t pid;
-    int exit_code;
-    int waited;
-    struct semaphore shared;
-    struct semaphore exec;
-};
 
 tid_t process_execute(const char *);
 int process_wait(tid_t);

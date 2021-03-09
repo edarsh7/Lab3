@@ -187,6 +187,7 @@ static int sys_open(const char* fname)
 
   if(!opened)
   {
+    printf("huh");
     return 2;
   }
 

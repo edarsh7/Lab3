@@ -176,6 +176,7 @@ process_execute(const char *cmdline)
     ps->cmdline_cpy = cmdline_copy;
     semaphore_init(&ps->shared, 0);
 
+
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, ps);
 
@@ -292,10 +293,9 @@ process_wait(tid_t child_tid UNUSED)
     ps->waited = 1;
 
     semaphore_down(&ps->shared);
-    int ec = ps->exit_code; 
+    int ec = ps->exit_code;
     
     return ec;
-
 }
 
 /* Free the current process's resources. */

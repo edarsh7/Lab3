@@ -388,7 +388,7 @@ static int sys_wait(tid_t child_tid)
 
 static void wait_handler(struct intr_frame *f)
 {
-  tid_t * child_tid;
+  tid_t child_tid;
   umem_read(f->esp + 4, &child_tid, sizeof(child_tid));
   int ret = sys_wait(child_tid);
   f->eax = ret;

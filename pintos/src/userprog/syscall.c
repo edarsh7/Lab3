@@ -198,7 +198,7 @@ static int sys_open(char* fname)
   {
     cur->id = list_size(&thread_current()->files)+1;
   }
-  list_push_back(&thread_current()->files, &cur->elem);
+  //list_push_back(&thread_current()->files, &cur->elem);
   return cur->id;
 }
 

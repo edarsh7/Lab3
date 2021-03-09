@@ -187,7 +187,6 @@ static int sys_open(const char* fname)
 
   if(!opened)
   {
-    printf("huh");
     return 2;
   }
 
@@ -201,7 +200,6 @@ static int sys_open(const char* fname)
   else
   {
     cur->id = list_size(&thread_current()->files)+1;
-    printf("size of list: %d",list_size(&thread_current()->files) );
   }
   list_push_back(&thread_current()->files, &cur->elem);
   return cur->id;

@@ -219,14 +219,34 @@ static int sys_read(int fd, const void *buffer, unsigned size)
   umem_check((const uint8_t*) buffer);
   umem_check((const uint8_t*) buffer + size - 1);
 
-  int ret = -1;
+  int ret;
 
   if (fd == 1) { // write to stdout
     putbuf(buffer, size);
     ret = size;
   }
+  else
+  {
+    struct file_entry * temp = NULL;
+    struct list_elem * e;
+    if(!list_empty(&thread_current()->files))
+    {
+        for(e = list_begin(&thread_current()->files);
+            e != list_end(&thread_current()->files);
+            e = list_next(e))
+        {
+          temp = list_entry(e, struct file_entry, entry);
+          if(temp->id == fd)
+          {
+            ret = file_read(temp->file, buffer, size)
+            break;
+          }
+        }
+    }
 
-  return (uint32_t) ret;
+  }
+
+  return ret;
 }
 
 

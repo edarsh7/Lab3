@@ -168,7 +168,7 @@ struct process_status
 
 struct file_entry{
   int id;
-  struct list_elem elem;
+  struct list_elem entry;
   struct file* file;
 };
 

@@ -187,8 +187,7 @@ static int sys_open(char* fname)
 
   if(!opened)
   {
-    printf("huh");
-    return -1;
+    return 1;
   }
 
   struct file_entry * cur = palloc_get_page(0);

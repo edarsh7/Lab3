@@ -356,3 +356,16 @@ static void close_handler(struct intr_frame *f)
   int ret = sys_filesize(fd);
   f->eax = ret;
 }
+
+static tid_t sys_exec(const char *cmdline)
+{
+  return process_execute(cmdline);
+}
+
+static void exec_handler(struct intr_frame *f)
+{
+  const char * cmdline;
+  umem_read(f->esp + 4, &cmdline, sizeof(cmdline));
+  tid_t ret = sys_exec(cmdline);
+  f->eax = ret;
+}

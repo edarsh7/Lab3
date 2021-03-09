@@ -80,7 +80,6 @@ push_command(const char *cmdline UNUSED, void **esp)
     char *temp2 = palloc_get_page(0);
     strlcpy(temp2, cmdline, PGSIZE);
     
-
     char *save = NULL;
     char *tok = NULL;
     int argc = 0;
@@ -169,20 +168,13 @@ process_execute(const char *cmdline)
     
     strlcpy(temp, cmdline, PGSIZE);
 
-
     char *save = NULL;
     char *tok = NULL;
     tok = strtok_r(temp, " ", &save);
 
-
-
     struct process_status *ps = palloc_get_page(0);
     ps->cmdline_cpy = cmdline_copy;
-    ps->waited = 0;
-    ps->exit_code = -1;
-    semaphore_init(&ps->exec, 0);
     semaphore_init(&ps->shared, 0);
-
 
     // Create a Kernel Thread for the new process
     tid_t tid = thread_create(tok, PRI_DEFAULT, start_process, ps);
@@ -192,8 +184,6 @@ process_execute(const char *cmdline)
 
     semaphore_down(&ps->exec);
 
-    list_push_back(&thread_current()->children, &ps->child);
-    ps->pid = tid;
     palloc_free_page(cmdline_copy);
     palloc_free_page(temp);
 
@@ -201,6 +191,12 @@ process_execute(const char *cmdline)
     // CSE130 Lab 3 : The "parent" thread immediately returns after creating 
     // the child. To get ANY of the tests passing, you need to synchronise the 
     // activity of the parent and child threads.
+
+    ps->waited = 0;
+    ps->exit_code = -1;
+    ps->pid = tid;
+    semaphore_init(&ps->exec, 0);
+    list_push_back(&thread_current()->children, &ps->child);
 
     return tid;
 }
@@ -241,7 +237,7 @@ start_process(void *cmdline)
         push_command(cmdline_copy2, &pif.esp);
     }
     palloc_free_page(cmdline_copy2);
-    
+
     struct thread *t = thread_current();
     t->p_stat = temp;
     semaphore_up(&temp->exec);
@@ -273,21 +269,18 @@ start_process(void *cmdline)
 int
 process_wait(tid_t child_tid UNUSED)
 {
-    struct thread *t = thread_current();
+    /* struct thread *t = thread_current();
     struct list_elem *e;
     struct process_status *ps = NULL;
     if(!list_empty(&t->children))
     {
-
         for(e = list_begin(&thread_current()->children);
             e != list_end(&thread_current()->children);
             e = list_next(e))
         {
-
             ps = list_entry(e, struct process_status, child);
             if(ps->pid == child_tid)
             {
-
                 break;
             }
         }
@@ -299,9 +292,10 @@ process_wait(tid_t child_tid UNUSED)
     ps->waited = 1;
 
     semaphore_down(&ps->shared);
-    int ec = ps->exit_code;
+    int ec = ps->exit_code; */
     
-    return ec;
+    //return ec;
+    return -1;
 }
 
 /* Free the current process's resources. */

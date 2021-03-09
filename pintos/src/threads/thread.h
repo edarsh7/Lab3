@@ -148,6 +148,9 @@ struct thread
     struct process_status * p_stat;
     struct list children;
 
+    struct list files;
+    struct file *executable;
+
     // Owned by thread.c. 
     unsigned magic;        // Detects stack overflow. 
   };
@@ -161,6 +164,12 @@ struct process_status
     int waited;
     struct semaphore shared;
     struct semaphore exec;
+};
+
+struct file_entry{
+  int id;
+  struct list_elem elem;
+  struct file* file;
 };
 
 

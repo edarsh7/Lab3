@@ -182,13 +182,24 @@ static void create_handler(struct intr_frame *f)
 
 static int sys_open(char* fname)
 {
-  struct file * opened;
+  umem_check((const uint8_t*) fname);
+  struct file * opened = filesys_open(fname);
   
-  opened = filesys_open(fname);
   if(!opened)
     return -1;
 
-  return ++thread_current()->fd;
+  struct file_entry * cur = palloc_get_page(0);
+  cur->file = opened;
+  if(list_empty(&thread_current()->files))
+  {
+    cur->id = 1;
+  }
+  else
+  {
+    cur->id = list_size(&thread_current()->files))++;
+  }
+  list_push_back(&thread_current()->files), &cur->elem);
+  return cur->id;
 }
 
 

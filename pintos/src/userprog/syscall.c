@@ -104,7 +104,7 @@ syscall_handler(struct intr_frame *f)
     read_handler(f);
     break;
 
-  case SYS_FILESIZE;
+  case SYS_FILESIZE:
     filesize_handler(f);
     break;
 

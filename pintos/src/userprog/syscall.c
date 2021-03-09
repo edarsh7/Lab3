@@ -57,6 +57,7 @@ static void create_handler(struct intr_frame *);
 static void open_handler(struct intr_frame *);
 static void exit_handler(struct intr_frame *);
 static void read_handler(struct intr_frame *);
+static void read_handler(struct intr_frame *);
 
 
 void
@@ -101,6 +102,10 @@ syscall_handler(struct intr_frame *f)
 
   case SYS_READ:
     read_handler(f);
+    break;
+
+  case SYS_FILESIZE;
+    filesize_handler(f);
     break;
 
 
@@ -204,7 +209,6 @@ static int sys_open(const char* fname)
   return cur->id;
 }
 
-
 static void open_handler(struct intr_frame *f)
 {
     const char * fname;
@@ -264,3 +268,36 @@ static void read_handler(struct intr_frame *f)
     f->eax =  x;
 }
 
+
+static int sys_filesize(int fd)
+{
+  struct file_entry * temp = NULL;
+  struct list_elem * e;
+  if(!list_empty(&thread_current()->files))
+  {
+    for(e = list_begin(&thread_current()->files);
+        e != list_end(&thread_current()->files);
+        e = list_next(e))
+    {
+      temp = list_entry(e, struct file_entry, entry);
+      if(temp->id == fd)
+      {
+        ret = file_read(temp->file, buffer, size);
+        break;
+      }
+    }
+  }
+  if(temp == NULL)
+    return -1;
+
+  return file_length(temp->file);;
+
+}
+
+static void filesize_handler(struct intr_frame *f)
+{
+  int fd;
+  umem_read(f->esp + 4, &fd, sizeof(fd));
+  int ret = sys_filesize(fd);
+  f->eax = ret;
+}

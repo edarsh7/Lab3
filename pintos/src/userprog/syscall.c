@@ -57,7 +57,7 @@ static void create_handler(struct intr_frame *);
 static void open_handler(struct intr_frame *);
 static void exit_handler(struct intr_frame *);
 static void read_handler(struct intr_frame *);
-static void wait_handler(struct intr_frame *);
+
 
 void
 syscall_init (void)

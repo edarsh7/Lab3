@@ -167,7 +167,7 @@ static uint32_t sys_write(int fd, const void *buffer, unsigned size)
           e = list_next(e))
       {
         temp = list_entry(e, struct file_entry, entry);
-        if(temp->id == fd)
+        if(temp->fid == fd)
         {
           ret = file_write(temp->file, buffer, size);
           break;
@@ -223,14 +223,14 @@ static int sys_open(const char* fname)
   cur->file = opened;
   if(list_empty(&thread_current()->files))
   {
-    cur->id = 2;
+    cur->fid = 2;
   }
   else
   {
-    cur->id = list_size(&thread_current()->files)+1;
+    cur->fid = list_size(&thread_current()->files)+1;
   }
   list_push_back(&thread_current()->files, &cur->entry);
-  return cur->id;
+  return cur->fid;
 }
 
 static void open_handler(struct intr_frame *f)
@@ -264,14 +264,13 @@ static int sys_read(int fd, const void *buffer, unsigned size)
             e = list_next(e))
         {
           temp = list_entry(e, struct file_entry, entry);
-          if(temp->id == fd)
+          if(temp->fid == fd)
           {
             ret = file_read(temp->file, buffer, size);
             break;
           }
         }
     }
-
   }
 
   return ret;
@@ -303,7 +302,7 @@ static int sys_filesize(int fd)
         e = list_next(e))
     {
       temp = list_entry(e, struct file_entry, entry);
-      if(temp->id == fd)
+      if(temp->fid == fd)
       {
         break;
       }
@@ -336,7 +335,7 @@ static void sys_close(int fd)
         e = list_next(e))
     {
       temp = list_entry(e, struct file_entry, entry);
-      if(temp->id == fd)
+      if(temp->fid == fd)
       {
         break;
       }

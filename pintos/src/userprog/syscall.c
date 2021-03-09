@@ -200,7 +200,7 @@ static int sys_open(const char* fname)
   {
     cur->id = list_size(&thread_current()->files)+1;
   }
-  list_push_back(&thread_current()->files, &cur->elem);
+  list_push_back(&thread_current()->files, &cur->entry);
   return cur->id;
 }
 
@@ -238,7 +238,7 @@ static int sys_read(int fd, const void *buffer, unsigned size)
           temp = list_entry(e, struct file_entry, entry);
           if(temp->id == fd)
           {
-            ret = file_read(temp->file, buffer, size)
+            ret = file_read(temp->file, buffer, size);
             break;
           }
         }

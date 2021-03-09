@@ -194,8 +194,7 @@ static int sys_open(const char* fname)
   cur->file = opened;
   if(list_empty(&thread_current()->files))
   {
-    cur->id = 1;
-    
+    cur->id = 2;
   }
   else
   {

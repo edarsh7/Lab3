@@ -269,7 +269,7 @@ start_process(void *cmdline)
 int
 process_wait(tid_t child_tid UNUSED)
 {
-    /* struct thread *t = thread_current();
+    struct thread *t = thread_current();
     struct list_elem *e;
     struct process_status *ps = NULL;
     if(!list_empty(&t->children))
@@ -292,10 +292,10 @@ process_wait(tid_t child_tid UNUSED)
     ps->waited = 1;
 
     semaphore_down(&ps->shared);
-    int ec = ps->exit_code; */
+    int ec = ps->exit_code; 
     
-    //return ec;
-    return -1;
+    return ec;
+
 }
 
 /* Free the current process's resources. */

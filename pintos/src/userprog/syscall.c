@@ -148,7 +148,7 @@ static void exit_handler(struct intr_frame *f)
 
   struct process_status *ps = thread_current()->p_stat;
   if(ps != NULL)
-    ps->exit_code = 1;
+    ps->exit_code = exitcode;
 
   sys_exit(exitcode);
 }

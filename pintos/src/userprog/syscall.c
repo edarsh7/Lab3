@@ -156,6 +156,25 @@ static uint32_t sys_write(int fd, const void *buffer, unsigned size)
     putbuf(buffer, size);
     ret = size;
   }
+  else
+  {
+    struct file_entry * temp = NULL;
+    struct list_elem * e;
+    if(!list_empty(&thread_current()->files))
+    {
+      for(e = list_begin(&thread_current()->files);
+          e != list_end(&thread_current()->files);
+          e = list_next(e))
+      {
+        temp = list_entry(e, struct file_entry, entry);
+        if(temp->id == fd)
+        {
+          ret = file_write(temp->file, buffer, size);
+          break;
+        }
+      }
+    }
+  }
 
   return (uint32_t) ret;
 }
@@ -258,7 +277,6 @@ static int sys_read(int fd, const void *buffer, unsigned size)
   return ret;
 }
 
-
 static void read_handler(struct intr_frame *f)
 {
     int fd;
@@ -272,7 +290,6 @@ static void read_handler(struct intr_frame *f)
     int x = sys_read(fd, buf, size);
     f->eax =  x;
 }
-
 
 static int sys_filesize(int fd)
 {

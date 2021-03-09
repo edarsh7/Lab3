@@ -127,7 +127,7 @@ static void exit_handler(struct intr_frame *f)
 
   struct process_status *ps = thread_current()->p_stat;
   if(ps != NULL)
-    ps->exit_code = 10;
+    ps->exit_code = 1;
 
   sys_exit(exitcode);
 }
@@ -193,10 +193,12 @@ static int sys_open(char* fname)
   if(list_empty(&thread_current()->files))
   {
     cur->id = 1;
+    
   }
   else
   {
     cur->id = list_size(&thread_current()->files)+1;
+    printf("size of list: %d",list_size(&thread_current()->files) );
   }
   list_push_back(&thread_current()->files, &cur->elem);
   return cur->id;

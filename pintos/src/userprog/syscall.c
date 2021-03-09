@@ -184,7 +184,7 @@ static int sys_open(char* fname)
 {
   umem_check((const uint8_t*) fname);
   struct file * opened = filesys_open(fname);
-  
+  printf("Huh");
   if(!opened)
     return -1;
 

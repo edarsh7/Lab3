@@ -60,6 +60,8 @@ static void read_handler(struct intr_frame *);
 static void filesize_handler(struct intr_frame *);
 static void close_handler(struct intr_frame *);
 
+static void exec_handler(struct intr_frame *);
+
 
 void
 syscall_init (void)

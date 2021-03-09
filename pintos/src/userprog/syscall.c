@@ -180,7 +180,7 @@ static void create_handler(struct intr_frame *f)
     f->eax = x;
 }
 
-static int sys_open(char* fname)
+static int sys_open(const char* fname)
 {
   umem_check((const uint8_t*) fname);
   struct file * opened = filesys_open(fname);

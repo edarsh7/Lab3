@@ -110,7 +110,7 @@ syscall_handler(struct intr_frame *f)
     break;
   
   case SYS_CLOSE:
-    read_handler(f);
+    close_handler(f);
     break;
 
 

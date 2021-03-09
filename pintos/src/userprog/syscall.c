@@ -271,6 +271,7 @@ static void read_handler(struct intr_frame *f)
 
 static int sys_filesize(int fd)
 {
+
   struct file_entry * temp = NULL;
   struct list_elem * e;
   if(!list_empty(&thread_current()->files))
@@ -282,7 +283,6 @@ static int sys_filesize(int fd)
       temp = list_entry(e, struct file_entry, entry);
       if(temp->id == fd)
       {
-        ret = file_read(temp->file, buffer, size);
         break;
       }
     }
